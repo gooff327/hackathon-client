@@ -1,0 +1,13 @@
+.home-wrapper {
+  flex: 1;
+  flex-direction: column;
+  .sub-header {
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 36px;
+    background-color: white;
+  }
+}

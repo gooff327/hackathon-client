@@ -1,0 +1,49 @@
+@import "variable";
+.main-layout {
+  background-color: $gray-200;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .header {
+    width: 100%;
+    height: 60px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid $gray-100;
+    .header-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+
+      .ant-input-affix-wrapper {
+        svg {
+          color: $gray-400;
+
+          &:focus {
+            color: whitesmoke;
+          }
+        }
+        &:focus {
+          svg {
+            color: #40a9ff;
+          }
+        }
+    }
+    }
+  }
+  .fixed-header {
+    position: fixed;
+    left: 0;
+  }
+  .content-wrapper {
+    flex: 1 1 auto;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 960px;
+  }
+}
