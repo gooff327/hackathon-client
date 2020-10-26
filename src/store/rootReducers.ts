@@ -1,9 +1,8 @@
-import {combineReducers} from "redux";
+import { combineReducers } from 'redux'
 import {
   useSelector as useReduxSelector,
-  TypedUseSelectorHook,
-} from "react-redux"
-
+  TypedUseSelectorHook
+} from 'react-redux'
 
 const rootReducer = combineReducers({
 })
