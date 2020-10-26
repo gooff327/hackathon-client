@@ -1,6 +1,6 @@
 import { RouteProps } from 'react-router-dom'
 import { ReactElement } from 'react'
-import Login from '../pages/login';
+import Login from '../pages/login'
 export interface Route extends RouteProps {
   icon?: ReactElement,
   name: string
