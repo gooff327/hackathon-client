@@ -28,6 +28,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.6",
+    "ant-design": "^1.0.0",
     "antd": "^4.7.3",
     "apollo-boost": "^0.4.9",
     "apollo-upload-client": "^14.1.2",
