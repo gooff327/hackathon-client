@@ -5,19 +5,27 @@ import { Provider } from 'react-redux'
 import store from './store'
 import client from './utils/apollo-init'
 import routes from './constants/routes'
+
+import './styles/layout.scss'
 import './App.css'
+import Header from './components/Header'
 
 function App () {
   return (
     <Provider store={store}>
       <ApolloProvider client={client}>
-        <Router>
-          <Switch>
-            {routes.map((route, i) => (
-              <Route {...route} key={i}/>
-            ))}
-          </Switch>
-        </Router>
+        <section className={'main-layout'}>
+          <Header />
+          <Router>
+            <div className={'content-wrapper'}>
+              <Switch>
+                {routes.map((route, i) => (
+                  <Route {...route} key={i}/>
+                ))}
+              </Switch>
+            </div>
+          </Router>
+        </section>
       </ApolloProvider>
     </Provider>
   )
