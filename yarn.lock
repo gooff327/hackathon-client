@@ -2342,6 +2342,11 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
+ant-design@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/ant-design/download/ant-design-1.0.0.tgz#53ea0a397da976358e88bf06224fb3de756b87b4"
+  integrity sha1-U+oKOX2pdjWOiL8GIk+z3nVrh7Q=
+
 antd@^4.7.3:
   version "4.7.3"
   resolved "https://registry.npm.taobao.org/antd/download/antd-4.7.3.tgz?cache=0&sync_timestamp=1603613267246&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fantd%2Fdownload%2Fantd-4.7.3.tgz#f9fadb3ec2c2a5c65237013cb54993bda72bd798"
