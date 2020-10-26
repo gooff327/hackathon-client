@@ -1,5 +1,5 @@
 import { RouteProps } from 'react-router-dom'
-import {ReactElement} from "react";
+import { ReactElement } from 'react'
 export interface Route extends RouteProps {
   icon: ReactElement
 }
