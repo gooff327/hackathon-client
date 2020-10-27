@@ -1,1 +1,1 @@
-export const ApolloServerURL = ''
+export const ApolloServerURL = 'http://www.gooff.tech/graphql'
