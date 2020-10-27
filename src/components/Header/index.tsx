@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import routes from '../../constants/routes'
 import { Button, Input } from 'antd'
-import { SearchOutlined, FormOutlined } from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons'
+import EditPostModal from '../../pages/EditPostModal'
+
 import { useHistory } from 'react-router-dom'
 import Login from '../../pages/login'
-const HeaderContent = ({ ...rest }) => {
+
+const HeaderContent = () => {
   const [pathname, setPathname] = useState('')
   const history = useHistory()
   useEffect(() => {
@@ -28,7 +31,7 @@ const HeaderContent = ({ ...rest }) => {
       )
     }
     <Input placeholder={'请输入关键字'} suffix={<SearchOutlined/>}/>
-    <Button type={'primary'}>发布<FormOutlined/></Button>
+    <EditPostModal/>
     <Button><Login/></Button>
   </div>
 }

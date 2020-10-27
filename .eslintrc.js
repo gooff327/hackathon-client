@@ -21,6 +21,8 @@ module.exports = {
   ],
   rules: {
     'no-use-before-define': 'off',
+    'no-unused-vars': 0,
+    'react/prop-types': 0,
     '@typescript-eslint/no-use-before-define': ['error']
   }
 }
