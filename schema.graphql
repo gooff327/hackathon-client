@@ -1,0 +1,206 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+type AuthUser {
+    token: String!
+    user: User!
+}
+
+type Category {
+    id: ID!
+    label: String!
+    value: String!
+}
+
+type Comment {
+    author: PubicUserInfo!
+    content: String!
+    id: ID!
+    target: CommentTarget!
+}
+
+type File {
+    encoding: String!
+    filename: String!
+    mimetype: String!
+    path: String!
+}
+
+type Invite {
+    createdAt: String!
+    email: String!
+    from: User!
+    role: Role!
+}
+
+type Message {
+    author: User!
+    file: String
+    id: ID!
+    target: User!
+    text: String
+    type: MessageType
+}
+
+type Mutation {
+    addComment(input: CommentInput!): Comment!
+    createPost(input: NewPostInput!): Post!
+    invite(input: InviteInput!): Invite!
+    sendImageToCloud(file: Image!): UploadResponse!
+    signIn(input: SignInInput!): AuthUser!
+    signUp(input: SignUpInput!): AuthUser!
+    updateMe(input: UpdateUserInput!): User
+    updateSettings(input: UpdateSettingsInput!): Settings!
+}
+
+type Post {
+    author: User!
+    category: [Category]!
+    comments: [Comment]
+    content: String
+    createdAt(format: String): String!
+    id: ID!
+    images: [String]!
+    isPublic: Boolean!
+    likes: [User]
+    title: String
+    updatedAt(format: String): String!
+    views: Int
+}
+
+type PubicUserInfo {
+    id: ID!
+    name: String!
+}
+
+type Query {
+    feed: [Post]!
+    me: User!
+    post(id: ID!): Post!
+    posts(input: PostFilter): [Post]!
+    user: User
+    userSettings: Settings!
+}
+
+type Settings {
+    emailNotification: Boolean!
+    id: ID!
+    pushNotification: Boolean!
+    setTop: [User]
+    theme: Theme!
+    user: User!
+}
+
+type Subscription {
+    newMessage: Message
+    newPost: Post
+}
+
+type UploadResponse {
+    message: String!
+    res: String!
+}
+
+type User {
+    avatar: String
+    createdAt(format: String): String!
+    email: String!
+    id: ID!
+    lastLoginAt(format: String): String!
+    name: String!
+    posts: [Post]
+    role: Role!
+    settings: Settings!
+    verified: Boolean!
+}
+
+enum CacheControlScope {
+    PRIVATE
+    PUBLIC
+}
+
+enum CommentTarget {
+    COMMENT
+    POST
+}
+
+enum MessageType {
+    CHAT
+    COMMENT
+    FORWARD
+    LIKE
+}
+
+enum Role {
+    ADMIN
+    GUEST
+    MEMBER
+}
+
+enum Theme {
+    DARK
+    LIGHT
+}
+
+input CommentInput {
+    content: String
+    pid: ID!
+}
+
+input InviteInput {
+    email: String!
+    role: Role!
+}
+
+input NewPostInput {
+    category: [String]!
+    content: String!
+    images: [String]!
+    isPublic: Boolean!
+    title: String!
+}
+
+input PostFilter {
+    category: String
+    hashtag: String
+    keyword: String
+    limit: Int
+    offset: Int
+    rank: Boolean
+    sortByDate: Boolean
+    sortByDateReverse: Boolean
+}
+
+input SignInInput {
+    email: String!
+    password: String!
+}
+
+input SignUpInput {
+    email: String!
+    name: String!
+    password: String!
+}
+
+input UpdateSettingsInput {
+    emailNotifications: Boolean
+    pushNotifications: Boolean
+    theme: Theme
+}
+
+input UpdateUserInput {
+    avatar: String
+    email: String
+    verified: Boolean
+}
+
+
+scalar Image
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
