@@ -1,3 +1,4 @@
+@import "variable";
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +11,14 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
+}
+
+#root {
+
+  button {
+    transition: color ease-in-out .2s;
+  }
+  .btn-active, .btn-active:focus {
+    color: $btn-active-color;
+  }
 }
