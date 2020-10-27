@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { Post } from '../../../../types'
-import { Skeleton, List, Button } from 'antd'
+import { List, Button } from 'antd'
+import { CommentOutlined, HeartOutlined } from '@ant-design/icons'
+import ButtonGroup from 'antd/lib/button/button-group'
 
 interface PostProps {
   post: Post[]
@@ -30,15 +32,22 @@ const ListView:FunctionComponent<PostProps> = ({ fetchMore, post, loading }) => 
     itemLayout="horizontal"
     loadMore={loadMore}
     dataSource={post}
-    renderItem={item => (
+    renderItem={({ likes, images, comments, title, author: { name }, createdAt }) => (
       <List.Item>
-        <Skeleton avatar title={false} loading={item.loading} active>
-          <List.Item.Meta
-            description={item?.author?.name}
-            title={item.title}
-          />
-          <div>{item.createdAt}</div>
-        </Skeleton>
+        <div className={'left-panel'}>
+          <div className={'top-info'}>
+            <span>{name}</span>
+            <span>{createdAt}</span>
+          </div>
+          <h3>{title}</h3>
+          <ButtonGroup>
+            <Button className={'btn-like'} type={'link'} icon={<HeartOutlined />}>{likes.length}</Button>
+            <Button className={'btn-comment'} type={'link'} icon={<CommentOutlined />}>{comments.length}</Button>
+          </ButtonGroup>
+        </div>
+        <div className={'right-panel'}>
+          {images.slice(0, 3).map(image => <img key={image} src={image} alt="image" />)}
+        </div>
       </List.Item>
     )}
   />
