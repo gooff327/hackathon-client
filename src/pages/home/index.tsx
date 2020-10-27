@@ -1,27 +1,48 @@
-import React from 'react'
-import { Button, Spin } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Button } from 'antd'
 import { gql } from 'apollo-boost'
 import { useQuery } from '@apollo/react-hooks'
-
+import Post from './components/Post'
 import './index.scss'
-const GET_POSTS = gql`
+const HOME_QUERY = gql`
     query getPosts {
         posts {
             title
         }
+        category {
+            label
+            value
+        }
     }
 `
 const Home = () => {
-  const category = ['测试1', '测试2', '测试3']
-  const { loading, error, data } = useQuery(GET_POSTS)
-  console.log(data, error, loading)
+  const { loading, error, data, fetchMore } = useQuery(HOME_QUERY)
+  const [category, setCategory] = useState('')
+
+  console.log(error)
+  useEffect(() => {
+    if (data) {
+      setCategory(data?.category[0]?.value)
+    }
+  }, [data])
+
+  const onBtnClick = (value: string) => {
+    setCategory(value)
+  }
   return (
     <section className={'home-wrapper'}>
-      <div className={'sub-header fixed-header'}>{ category.map(item => <Button key={item} type={'link'}>{item}</Button>)}</div>
-      <div className={'sub-header'}>{ category.map(item => <Button key={item} type={'link'}>{item}</Button>)}</div>
-      <Spin spinning={loading} delay={20}>
-        { data?.posts.map((i: any) => <div key={i}>i</div>)}
-      </Spin>
+      <div className={'sub-header fixed-header shadow'}>{ data?.category.map(({ label, value }: any) =>
+        <Button
+          className={ category === value ? 'btn-active' : ''}
+          key={value}
+          type={'link'}
+          onClick={() => onBtnClick(value)}
+        >
+          {label}
+        </Button>)}
+      </div>
+      <div className={'sub-header'} />
+      <Post.ListView fetchMore={fetchMore} post={data?.posts} loading={loading}/>
     </section>
   )
 }

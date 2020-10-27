@@ -20,18 +20,21 @@ const routes: Route[] = [
     path: '/message',
     name: '消息',
     component: Login,
+    exact: true,
     hide: false
   },
   {
     path: '/search',
     name: '搜索',
     component: Login,
+    exact: true,
     hide: true
   },
   {
     path: '/me',
     name: '我的',
     component: Login,
+    exact: true,
     hide: false
   }
 ]

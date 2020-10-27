@@ -14,18 +14,18 @@ function App () {
   return (
     <Provider store={store}>
       <ApolloProvider client={client}>
-        <section className={'main-layout'}>
-          <Header />
-          <Router>
-            <div className={'content-wrapper'}>
-              <Switch>
+        <Router>
+          <section className={'main-layout'}>
+            <Header />
+            <Switch>
+              <div className={'content-wrapper'}>
                 {routes.map((route, i) => (
                   <Route {...route} key={i}/>
                 ))}
-              </Switch>
-            </div>
-          </Router>
-        </section>
+              </div>
+            </Switch>
+          </section>
+        </Router>
       </ApolloProvider>
     </Provider>
   )
