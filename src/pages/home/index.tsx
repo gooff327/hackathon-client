@@ -8,6 +8,18 @@ const HOME_QUERY = gql`
     query getPosts {
         posts {
             title
+            createdAt
+            author {
+                name
+            }
+            likes{
+                avatar
+            }
+            comments{
+                id
+            }
+            views
+            images
         }
         category {
             label
