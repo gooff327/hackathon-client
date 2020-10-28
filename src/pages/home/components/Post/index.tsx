@@ -12,19 +12,18 @@ interface PostProps {
 
 // eslint-disable-next-line react/prop-types
 const ListView:FunctionComponent<PostProps> = ({ fetchMore, post, loading }) => {
-  const loadMore = !loading
-    ? (
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: 12,
-            height: 32,
-            lineHeight: '32px'
-          }}
-        >
-          <Button onClick={fetchMore}>加载更多</Button>
-        </div>
-      )
+  const loadMore = !loading ? (
+    <div
+      style={{
+        textAlign: 'center',
+        marginTop: 12,
+        height: 32,
+        lineHeight: '32px'
+      }}
+    >
+      <Button onClick={fetchMore}>加载更多</Button>
+    </div>
+  )
     : null
   return <List
     className="shadow"

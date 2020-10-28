@@ -7,6 +7,8 @@ import EditPostModal from '../../pages/EditPostModal'
 import { useHistory } from 'react-router-dom'
 import Login from '../../pages/login'
 
+import './style.scss'
+
 const HeaderContent = () => {
   const [pathname, setPathname] = useState('')
   const history = useHistory()
@@ -32,7 +34,7 @@ const HeaderContent = () => {
     }
     <Input placeholder={'请输入关键字'} suffix={<SearchOutlined/>}/>
     <EditPostModal/>
-    <Button><Login/></Button>
+    <Login/>
   </div>
 }
 const Header = () => {

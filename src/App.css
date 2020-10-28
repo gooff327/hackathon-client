@@ -43,3 +43,11 @@ html, body, #root {
   height: 100%;
   background: #f4f5f5;
 }
+
+.login {
+  word-break: keep-all;
+}
+
+.ant-btn-link {
+  color: #71777c;
+}
