@@ -9,7 +9,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token
+      authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlBDbi1lZkphZjVlazZUZll6QWd5Iiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTYwMzg3MDA3OH0.Sxawzpf-wwmW_Ye5ikFCfbyESdO4F8kysAiIys8fhL0'
     }
   }
 })
