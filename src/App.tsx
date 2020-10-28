@@ -18,11 +18,9 @@ function App () {
           <section className={'main-layout'}>
             <Header />
             <Switch>
-              <div className={'content-wrapper'}>
-                {routes.map((route, i) => (
-                  <Route {...route} key={i}/>
-                ))}
-              </div>
+              {routes.map((route, i) => (
+                <Route {...route} key={i} className={'content-wrapper'}/>
+              ))}
             </Switch>
           </section>
         </Router>

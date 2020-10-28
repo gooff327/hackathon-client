@@ -12,16 +12,20 @@ type AuthUser {
 }
 
 type Category {
-    id: ID!
     label: String!
     value: String!
 }
 
 type Comment {
-    author: PubicUserInfo!
+    author: PublicUserInfo!
     content: String!
     id: ID!
     target: CommentTarget!
+}
+
+type EmailStatus {
+    available: Boolean!
+    email: String!
 }
 
 type File {
@@ -59,8 +63,8 @@ type Mutation {
 }
 
 type Post {
-    author: User!
-    category: [Category]!
+    author: PublicUserInfo!
+    category: Category!
     comments: [Comment]
     content: String
     createdAt(format: String): String!
@@ -73,12 +77,16 @@ type Post {
     views: Int
 }
 
-type PubicUserInfo {
+type PublicUserInfo {
+    avatar: String!
+    email: String!
     id: ID!
     name: String!
 }
 
 type Query {
+    category: [Category]!
+    email(email: String!): EmailStatus!
     feed: [Post]!
     me: User!
     post(id: ID!): Post!
@@ -91,7 +99,7 @@ type Settings {
     emailNotification: Boolean!
     id: ID!
     pushNotification: Boolean!
-    setTop: [User]
+    setTop: [PublicUserInfo]
     theme: Theme!
     user: User!
 }
@@ -158,7 +166,7 @@ input InviteInput {
 }
 
 input NewPostInput {
-    category: [String]!
+    category: String!
     content: String!
     images: [String]!
     isPublic: Boolean!
