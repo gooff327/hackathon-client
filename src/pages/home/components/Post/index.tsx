@@ -14,6 +14,7 @@ interface PostProps {
 // eslint-disable-next-line react/prop-types
 const ListView:FunctionComponent<RouteComponentProps & PostProps> = (
   props:RouteComponentProps, { fetchMore, post, loading }:PostProps) => {
+  console.log('post', post)
   const loadMore = !loading ? (
     <div
       style={{
@@ -31,32 +32,28 @@ const ListView:FunctionComponent<RouteComponentProps & PostProps> = (
   const handleNavToDetail = () => {
     console.log(props)
   }
-
-  return <List
-    className="shadow"
-    loading={loading}
-    itemLayout="horizontal"
-    loadMore={loadMore}
-    dataSource={post}
-    renderItem={({ likes, images, comments, title, author: { name }, createdAt }) => (
-      <List.Item onClick={handleNavToDetail}>
-        <div className={'left-panel'}>
-          <div className={'top-info'}>
-            <span>{name}</span>
-            <span>{createdAt}</span>
+  return <div>
+    {
+      post?.map(({ likes, images, comments, title, author: { name }, createdAt }) => (
+        <div key={createdAt} onClick={handleNavToDetail}>
+          <div className={'left-panel'}>
+            <div className={'top-info'}>
+              <span>{name}</span>
+              <span>{createdAt}</span>
+            </div>
+            <h3>{title}</h3>
+            <ButtonGroup>
+              <Button className={'btn-like'} type={'link'} icon={<HeartOutlined />}>{likes.length}</Button>
+              <Button className={'btn-comment'} type={'link'} icon={<CommentOutlined />}>{comments.length}</Button>
+            </ButtonGroup>
           </div>
-          <h3>{title}</h3>
-          <ButtonGroup>
-            <Button className={'btn-like'} type={'link'} icon={<HeartOutlined />}>{likes.length}</Button>
-            <Button className={'btn-comment'} type={'link'} icon={<CommentOutlined />}>{comments.length}</Button>
-          </ButtonGroup>
+          <div className={'right-panel'}>
+            {images.slice(0, 3).map(image => <img key={image} src={image} alt="image" />)}
+          </div>
         </div>
-        <div className={'right-panel'}>
-          {images.slice(0, 3).map(image => <img key={image} src={image} alt="image" />)}
-        </div>
-      </List.Item>
-    )}
-  />
+      ))
+    }
+  </div>
 }
 
 const CardView = () => {}
