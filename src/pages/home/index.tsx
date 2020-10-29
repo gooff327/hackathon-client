@@ -4,6 +4,8 @@ import { gql } from 'apollo-boost'
 import { useQuery } from '@apollo/react-hooks'
 import Post from './components/Post'
 import './index.scss'
+import { RouteComponentProps } from 'react-router'
+
 const HOME_QUERY = gql`
     query getPosts {
         posts {
@@ -27,7 +29,7 @@ const HOME_QUERY = gql`
         }
     }
 `
-const Home = () => {
+const Home = (props:RouteComponentProps) => {
   const { loading, error, data, fetchMore } = useQuery(HOME_QUERY)
   const [category, setCategory] = useState('')
 
@@ -54,7 +56,7 @@ const Home = () => {
         </Button>)}
       </div>
       <div className={'sub-header'} />
-      <Post.ListView fetchMore={fetchMore} post={data?.posts} loading={loading}/>
+      <Post.ListView fetchMore={fetchMore} post={data?.posts} loading={loading} {...props}/>
     </section>
   )
 }

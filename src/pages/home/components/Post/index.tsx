@@ -3,6 +3,7 @@ import { Post } from '../../../../types'
 import { List, Button } from 'antd'
 import { CommentOutlined, HeartOutlined } from '@ant-design/icons'
 import ButtonGroup from 'antd/lib/button/button-group'
+import { RouteComponentProps } from 'react-router'
 
 interface PostProps {
   post: Post[]
@@ -11,7 +12,8 @@ interface PostProps {
 }
 
 // eslint-disable-next-line react/prop-types
-const ListView:FunctionComponent<PostProps> = ({ fetchMore, post, loading }) => {
+const ListView:FunctionComponent<RouteComponentProps & PostProps> = (
+  props:RouteComponentProps, { fetchMore, post, loading }:PostProps) => {
   const loadMore = !loading ? (
     <div
       style={{
@@ -25,6 +27,11 @@ const ListView:FunctionComponent<PostProps> = ({ fetchMore, post, loading }) => 
     </div>
   )
     : null
+
+  const handleNavToDetail = () => {
+    console.log(props)
+  }
+
   return <List
     className="shadow"
     loading={loading}
@@ -32,7 +39,7 @@ const ListView:FunctionComponent<PostProps> = ({ fetchMore, post, loading }) => 
     loadMore={loadMore}
     dataSource={post}
     renderItem={({ likes, images, comments, title, author: { name }, createdAt }) => (
-      <List.Item>
+      <List.Item onClick={handleNavToDetail}>
         <div className={'left-panel'}>
           <div className={'top-info'}>
             <span>{name}</span>
