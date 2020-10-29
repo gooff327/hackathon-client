@@ -4,6 +4,8 @@ import './style.scss'
 import { gql } from 'apollo-boost'
 import { useMutation, useLazyQuery } from '@apollo/react-hooks'
 import { setToLocalStorage } from '../../utils'
+import { updateUser } from '../../store/user/actions'
+import { setContext } from '@apollo/client/link/context'
 
 // 登录
 const SIGN_IN = gql`
@@ -11,7 +13,7 @@ const SIGN_IN = gql`
       signIn(input: {email: $email, password: $password}) {
         token
         user {
-          id email avatar role verified name
+          _id email avatar role verified name
         }
       }
     }
@@ -24,7 +26,7 @@ const SIGN_UP = gql`
     }) {
       token
       user {
-        id email avatar role verified name
+        _id email avatar role verified name
       }
     }
   }
@@ -52,21 +54,41 @@ const Login = () => {
     setVisible(val)
   }
 
-  console.log('emailStatus', emailStatus)
-
+  const changeLoginState = (data: any) => {
+    setVisible(false)
+    setToLocalStorage('token', data.token)
+    const { _id, email, avatar, role, verified, name } = data.user
+    const user = { id: _id, email, avatar, name, role, verified }
+    setToLocalStorage('me', user)
+    updateUser(user)
+    setContext((_, { headers }) => {
+      return {
+        headers: {
+          ...headers,
+          authorization: data.token
+        }
+      }
+    })
+  }
   const onFinish = async (values:any) => {
-    console.log('Success:', values)
     const { email, password } = values
-    await signIn({ variables: { email, password } })
-      .then(({ data }) => {
-        console.log('sign in success', data)
-        setVisible(false)
-        setToLocalStorage('token', data.signIn.token)
-      })
-      .catch(err => {
-        console.log(err)
-        throw err
-      })
+    if (!emailStatus?.email?.available) {
+      await signUp({ variables: { email, password } })
+        .then(({ data }: any) => {
+          changeLoginState(data.signUp)
+        })
+        .catch(err => {
+          throw err
+        })
+    } else {
+      await signIn({ variables: { email, password } })
+        .then(({ data }) => {
+          changeLoginState(data.signIn)
+        })
+        .catch(err => {
+          throw err
+        })
+    }
   }
 
   const getEmailStatus = async () => {

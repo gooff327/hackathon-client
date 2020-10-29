@@ -15,18 +15,21 @@ interface PostProps {
 const ListView:FunctionComponent<RouteComponentProps & PostProps> = (
   props:RouteComponentProps, { fetchMore, post, loading }:PostProps) => {
   console.log('post', post)
-  const loadMore = !loading ? (
-    <div
-      style={{
-        textAlign: 'center',
-        marginTop: 12,
-        height: 32,
-        lineHeight: '32px'
-      }}
-    >
-      <Button onClick={fetchMore}>加载更多</Button>
-    </div>
-  )
+  // eslint-disable-next-line multiline-ternary
+  const loadMore = !loading
+  // eslint-disable-next-line multiline-ternary
+    ? (
+        <div
+          style={{
+            textAlign: 'center',
+            marginTop: 12,
+            height: 32,
+            lineHeight: '32px'
+          }}
+        >
+          <Button onClick={fetchMore}>加载更多</Button>
+        </div>
+      )
     : null
 
   const handleNavToDetail = () => {

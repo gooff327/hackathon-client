@@ -1,7 +1,14 @@
 @import "src/styles/variable";
+
 .home-wrapper {
   flex: 1;
   flex-direction: column;
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  max-width: 960px;
+
   .sub-header {
     left: 0;
     display: flex;
@@ -11,33 +18,71 @@
     height: 36px;
     background-color: white;
   }
-  .ant-list {
-    padding: 0 24px;
-    margin-top: 24px;
+
+  ul {
+
+    flex: 1;
+    margin-top: 50px;
+    padding: 24px;
     background-color: white;
-    ul li {
+    height: 100%;
+    overflow: scroll;
+    position: relative;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    .ant-empty {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pagination-btn-wrapper {
+      position: sticky;
+      right: 100px;
+      bottom: 100px;
+      z-index: 99;
+      display: flex;
+      justify-content: flex-end;
+      button {
+        margin-right: 16px;
+        transition: all ease-in-out .3s;
+      }
+    }
+
+    li {
+      padding: 12px;
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 100%;
+      border-bottom: $gray-300 1px solid;
+      height: 140px;
+
       .right-panel {
-        img{
-          width: 110px;
-          min-width: 110px;
-          max-width: 110px;
+        img {
+          min-width: 90px;
+          max-width: 90px;
+          height: 90px;
           object-fit: cover;
+          border-radius: 6px;
         }
       }
+
       .left-panel {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        gap: 6px;
 
         button {
-          padding: 0 10px;
+          padding: 0 20px 0 0;
           color: $gray-500;
-
           span {
-            padding-right: 4px;
+            padding-right: 6px;
           }
         }
 
