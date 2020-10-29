@@ -17,10 +17,12 @@ type Category {
 }
 
 type Comment {
-    author: PublicUserInfo!
+    _id: ID!
+    author: User!
     content: String!
-    id: ID!
-    target: CommentTarget!
+    createAt(format: String): String!
+    replies: [Reply]!
+    type: CommentTarget!
 }
 
 type EmailStatus {
@@ -43,18 +45,20 @@ type Invite {
 }
 
 type Message {
+    _id: ID!
     author: User!
     file: String
-    id: ID!
     target: User!
     text: String
     type: MessageType
 }
 
 type Mutation {
+    addCategory(input: [CategoryInput]!): [Category]!
     addComment(input: CommentInput!): Comment!
     createPost(input: NewPostInput!): Post!
     invite(input: InviteInput!): Invite!
+    likeAction(target: ID!, type: LikeTarget): Post!
     sendImageToCloud(file: Image!): UploadResponse!
     signIn(input: SignInInput!): AuthUser!
     signUp(input: SignUpInput!): AuthUser!
@@ -63,25 +67,23 @@ type Mutation {
 }
 
 type Post {
-    author: PublicUserInfo!
+    _id: ID!
+    author: User!
     category: Category!
-    comments: [Comment]
-    content: String
+    comments: [Comment]!
+    content: String!
     createdAt(format: String): String!
-    id: ID!
     images: [String]!
     isPublic: Boolean!
-    likes: [User]
-    title: String
+    likes: [User]!
+    title: String!
     updatedAt(format: String): String!
-    views: Int
+    views: Int!
 }
 
-type PublicUserInfo {
-    avatar: String!
-    email: String!
-    id: ID!
-    name: String!
+type Posts {
+    data: [Post]!
+    hasNextPage: Boolean!
 }
 
 type Query {
@@ -90,16 +92,25 @@ type Query {
     feed: [Post]!
     me: User!
     post(id: ID!): Post!
-    posts(input: PostFilter): [Post]!
+    posts(filter: PostFilter, pagination: Pagination, rank: Rank): Posts!
     user: User
     userSettings: Settings!
 }
 
+type Reply {
+    _id: ID!
+    author: User!
+    content: String!
+    createAt(format: String): String!
+    to: User
+    type: CommentTarget!
+}
+
 type Settings {
+    _id: ID!
     emailNotification: Boolean!
-    id: ID!
     pushNotification: Boolean!
-    setTop: [PublicUserInfo]
+    setTop: [User]
     theme: Theme!
     user: User!
 }
@@ -115,10 +126,10 @@ type UploadResponse {
 }
 
 type User {
+    _id: ID!
     avatar: String
     createdAt(format: String): String!
     email: String!
-    id: ID!
     lastLoginAt(format: String): String!
     name: String!
     posts: [Post]
@@ -133,6 +144,11 @@ enum CacheControlScope {
 }
 
 enum CommentTarget {
+    COMMENT
+    POST
+}
+
+enum LikeTarget {
     COMMENT
     POST
 }
@@ -155,9 +171,16 @@ enum Theme {
     LIGHT
 }
 
+input CategoryInput {
+    label: String!
+    value: String!
+}
+
 input CommentInput {
-    content: String
-    pid: ID!
+    content: String!
+    target: ID!
+    to: ID
+    type: CommentTarget!
 }
 
 input InviteInput {
@@ -173,12 +196,17 @@ input NewPostInput {
     title: String!
 }
 
+input Pagination {
+    limit: Int!
+    page: Int!
+}
+
 input PostFilter {
     category: String
-    hashtag: String
     keyword: String
-    limit: Int
-    offset: Int
+}
+
+input Rank {
     rank: Boolean
     sortByDate: Boolean
     sortByDateReverse: Boolean
