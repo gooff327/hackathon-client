@@ -171,6 +171,7 @@ const EditPostForm:React.FC<EditPostFormProps> = ({
             listType={'picture-card'}
             onPreview={() => {} }
             onChange={handleUploadImg}
+            {...uploadProps}
           >
             {uploadButton}
           </Upload>
