@@ -2,6 +2,9 @@ import { RouteProps } from 'react-router-dom'
 import { ReactElement } from 'react'
 import Login from '../pages/login'
 import Home from '../pages/home'
+import User from '../pages/user'
+import Profile from '../pages/user/profile'
+
 export interface Route extends RouteProps {
   icon?: ReactElement,
   name: string
@@ -31,11 +34,17 @@ const routes: Route[] = [
     hide: true
   },
   {
-    path: '/me',
+    path: '/user',
     name: '我的',
-    component: Login,
     exact: true,
+    component: User,
     hide: false
+  },
+  {
+    path: '/user/profile',
+    name: '个人信息',
+    component: Profile,
+    hide: true
   }
 ]
 export default routes
