@@ -17,11 +17,13 @@ function App () {
         <Router>
           <section className={'main-layout'}>
             <Header />
-            <Switch>
-              {routes.map((route, i) => (
-                <Route {...route} key={i} className={'content-wrapper'}/>
-              ))}
-            </Switch>
+            <div className={'content-wrapper'}>
+              <Switch>
+                {routes.map((route, i) => (
+                  <Route {...route} key={i} />
+                ))}
+              </Switch>
+            </div>
           </section>
         </Router>
       </ApolloProvider>

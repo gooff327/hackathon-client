@@ -47,4 +47,10 @@
     flex-direction: column;
     max-width: 960px;
   }
+  .content-wrapper {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    max-width: 960px;
+  }
 }
