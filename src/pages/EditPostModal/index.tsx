@@ -102,9 +102,8 @@ const EditPostForm:React.FC<EditPostFormProps> = ({
   const uploadProps = {
     beforeUpload: (file: File) => {
       uploadImage({ variables: { file } })
-        .then(({ data: { sendImgToCloud: { message, res } } }) => {
-          console.log('message', message)
-          console.log(JSON.parse(res))
+        .then(({ data: { sendImageToCloud: { message, res } } }) => {
+          console.log('message', message, res)
         })
       return false
     }

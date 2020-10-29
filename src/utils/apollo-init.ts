@@ -9,7 +9,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlBDbi1lZkphZjVlazZUZll6QWd5Iiwicm9sZSI6Ik1FTUJFUiIsImlhdCI6MTYwMzg3MDA3OH0.Sxawzpf-wwmW_Ye5ikFCfbyESdO4F8kysAiIys8fhL0'
+      authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdvb2ZmMTk5N0BvdXRsb29rLmNvbSIsInJvbGUiOiJNRU1CRVIiLCJpYXQiOjE2MDM5Mzg4NjB9.AX8XKpKKyAYv16U9KWN06DaCzhj8DUiN0i7werlgsn8'
     }
   }
 })
