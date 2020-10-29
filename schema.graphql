@@ -84,6 +84,7 @@ type Post {
 type Posts {
     data: [Post]!
     hasNextPage: Boolean!
+    hasPrevPage: Boolean!
 }
 
 type Query {

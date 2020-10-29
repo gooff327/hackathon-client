@@ -1,65 +1,71 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from 'antd'
-import { gql } from 'apollo-boost'
-import { useQuery } from '@apollo/react-hooks'
-import Post from './components/Post'
+import { Button, Empty, Spin } from 'antd'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks'
 import './index.scss'
 import { RouteComponentProps } from 'react-router'
 import ButtonGroup from 'antd/lib/button/button-group'
-import { CommentOutlined, HeartOutlined } from '@ant-design/icons'
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  CommentOutlined,
+  HeartFilled,
+  HeartOutlined,
+  SyncOutlined
+} from '@ant-design/icons'
+import { doLikeAction, fetchCategory, fetchPosts } from '../../gql'
 
-const HOME_QUERY = gql`
-    query getPosts {
-        posts {
-            data {
-                title
-                createdAt
-                author {
-                    name
-                }
-                likes{
-                    avatar
-                }
-                comments{
-                    _id
-                }
-                views
-                images
-                category {
-                    label
-                    value
-                }
-                }
-            hasNextPage
-        }
-        category {
-            label
-            value
-        }
-    }
-`
-const Home = (props:RouteComponentProps) => {
-  const { loading, error, data, fetchMore } = useQuery(HOME_QUERY)
+const Home = (props: RouteComponentProps) => {
+  const limit = 10
+  const [page, setPage] = useState(1)
+  const [getPosts, { loading, data }] = useLazyQuery(fetchPosts)
+  const { data: Categories } = useQuery(fetchCategory)
   const [category, setCategory] = useState('')
+  const [handleLike] = useMutation(doLikeAction)
   const [posts, setPosts] = useState([])
 
-  console.log(error)
   useEffect(() => {
-    if (data) {
-      setCategory(data.category[0].value)
-      setPosts(data.posts.data)
+    if (Categories && !category) {
+      setCategory(Categories.category[0].value)
+      getPosts({
+        variables: { category: Categories.category[0].value, keyword: '', page, limit }
+      })
     }
-  }, [data])
+  }, [Categories])
 
-  const onBtnClick = (value: string) => {
+  useEffect(() => {
+
+  }, [data])
+  const onBtnClick = async (value: string) => {
     setCategory(value)
+    await getPosts({
+      variables: { category: value, keyword: '', limit, page: 1 }
+    })
   }
-  if (data) {
+
+  const handleFetchMore = async (p: number) => {
+    await getPosts({
+      variables: { category, keyword: '', limit, page: p }
+    })
+    setPage(p)
+  }
+
+  const handleLikeBtnClick = async (pid: any, uid: any, likes: any) => {
+    await handleLike({
+      variables: {
+        target: pid
+      }
+    })
+  }
+
+  if (loading) {
+    return <Spin spinning={loading} indicator={<SyncOutlined spin/>}/>
+  }
+  if (data && Categories) {
     return (
       <section className={'home-wrapper'}>
-        <div className={'sub-header fixed-header shadow'}>{ data?.category.map(({ label, value }: any) =>
+        <div className={'sub-header fixed-header shadow'}>{Categories.category.map(({ label, value }: any) =>
           <Button
-            className={ category === value ? 'btn-active' : ''}
+            className={category === value ? 'btn-active' : ''}
             key={value}
             type={'link'}
             onClick={() => onBtnClick(value)}
@@ -67,27 +73,64 @@ const Home = (props:RouteComponentProps) => {
             {label}
           </Button>)}
         </div>
-        <div className={'sub-header'} />
-        {
-          posts?.map(({ likes, images, comments, title, author: { name }, createdAt }: any) => (
-            <div key={createdAt}>
-              <div className={'left-panel'}>
-                <div className={'top-info'}>
-                  <span>{name}</span>
-                  <span>{createdAt}</span>
+        <div className={'sub-header'}/>
+        <ul>
+          {
+            data.posts.data.length === 0 && <Empty description={'暂无数据'}/>
+
+          }
+          {
+            data.posts.data.map(({ _id, likes, images, comments, title, author: { name, _id: selfID }, createdAt }: any) =>
+              <li key={_id}>
+                <div className={'left-panel'}>
+                  <div className={'top-info'}>
+                    <span>{name}</span>
+                    <span>{createdAt}</span>
+                  </div>
+                  <h3>{title}</h3>
+                  <ButtonGroup>
+                    <Button
+                      className={'btn-like'}
+                      type={'link'}
+                      icon={
+                        likes.findIndex(({ _id: uid }: { _id: any }) => uid === selfID) !== -1 ? <HeartFilled style={{ color: '#F56565' }}/> : <HeartOutlined/>}
+                      onClick={() => handleLikeBtnClick(_id, selfID, likes)}
+                    >
+                      {likes.length}
+                    </Button>
+                    <Button className={'btn-comment'} type={'link'}
+                      icon={<CommentOutlined/>}>{comments.length}</Button>
+                  </ButtonGroup>
                 </div>
-                <h3>{title}</h3>
-                <ButtonGroup>
-                  <Button className={'btn-like'} type={'link'} icon={<HeartOutlined />}>{likes.length}</Button>
-                  <Button className={'btn-comment'} type={'link'} icon={<CommentOutlined />}>{comments.length}</Button>
-                </ButtonGroup>
-              </div>
-              <div className={'right-panel'}>
-                {images.slice(0, 3).map((image: any) => <img key={image} src={image} alt="image" />)}
-              </div>
+                <div className={'right-panel'}>
+                  {images.slice(0, 3).map((image: any) => <img key={image} src={image} alt="image"/>)}
+                </div>
+              </li>
+            )
+          }
+          {
+            (data.posts.hasNextPage || data.posts.hasPrevPage) && <div className={'pagination-btn-wrapper'}>
+              {
+                data.posts.hasPrevPage && <Button
+                  shape={'circle'}
+                  className={'shadow-2xl'}
+                  onClick={() => handleFetchMore(page - 1)}
+                  icon={<ArrowUpOutlined/>}
+                />
+
+              }
+              {
+                data.posts.hasNextPage && <Button
+                  shape={'circle'}
+                  className={'shadow-2xl'}
+                  onClick={() => handleFetchMore(page + 1)}
+                  icon={<ArrowDownOutlined/>}
+                />
+              }
             </div>
-          ))
-        }
+          }
+        </ul>
+
       </section>
     )
   }
