@@ -6,6 +6,7 @@ import { useMutation, useLazyQuery } from '@apollo/react-hooks'
 import { setToLocalStorage } from '../../utils'
 import { updateUser } from '../../store/user/actions'
 import { setContext } from '@apollo/client/link/context'
+import { useDispatch } from 'react-redux'
 
 // 登录
 const SIGN_IN = gql`
@@ -49,6 +50,7 @@ const Login = () => {
   const [form] = Form.useForm()
 
   const [visible, setVisible] = useState(false)
+  const dispatch = useDispatch()
 
   const handleSetVisible = (val:boolean) => {
     setVisible(val)
@@ -60,7 +62,7 @@ const Login = () => {
     const { _id, email, avatar, role, verified, name } = data.user
     const user = { id: _id, email, avatar, name, role, verified }
     setToLocalStorage('me', user)
-    updateUser(user)
+    dispatch(updateUser(user))
     setContext((_, { headers }) => {
       return {
         headers: {

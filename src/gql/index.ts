@@ -41,11 +41,25 @@ query {
 `
 
 export const doLikeAction = gql`
-    mutation {
-        likeAction(target: "5f994483daacb021bbe95877") {
-            likes {
-                _id
+    mutation($target: ID!) {
+        likeAction(target: $target) {
+            _id
+            title
+            createdAt
+            author {
+                name
+            }
+            likes{
                 avatar
+            }
+            comments{
+                _id
+            }
+            views
+            images
+            category {
+                label
+                value
             }
         }
     }
