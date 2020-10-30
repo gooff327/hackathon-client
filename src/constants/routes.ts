@@ -4,6 +4,7 @@ import Login from '../pages/login'
 import Home from '../pages/home'
 import User from '../pages/user'
 import Profile from '../pages/user/profile'
+import PostDetailPage from '../pages/postDetail'
 
 export interface Route extends RouteProps {
   icon?: ReactElement,
@@ -39,6 +40,12 @@ const routes: Route[] = [
     exact: true,
     component: User,
     hide: false
+  },
+  {
+    path: '/detail',
+    name: '详情',
+    component: PostDetailPage,
+    hide: true
   },
   {
     path: '/user/profile',
