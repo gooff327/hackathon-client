@@ -3,7 +3,7 @@ export enum HomeActionEnumTypes {
   REMOVE_POST_TO_LIKE = 'REMOVE_POST_TO_LIKE'
 }
 
-interface LikePayload {
+export interface LikePayload {
   [id: string]: boolean
 }
 

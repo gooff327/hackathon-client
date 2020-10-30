@@ -1,11 +1,11 @@
 import { HomeActionTypes, HomeActionEnumTypes } from './types'
 
-export const addToLikeMap = (status = true): HomeActionTypes => ({
+export const addToLikeMap = (payload: { [id: string]: boolean}): HomeActionTypes => ({
   type: HomeActionEnumTypes.ADD_POST_TO_LIKE,
-  payload: { status }
+  payload: payload
 })
 
-export const removeFromLikeMap = (status = false): HomeActionTypes => ({
+export const removeFromLikeMap = (payload: { [id: string]: boolean}): HomeActionTypes => ({
   type: HomeActionEnumTypes.REMOVE_POST_TO_LIKE,
-  payload: { status }
+  payload: payload
 })

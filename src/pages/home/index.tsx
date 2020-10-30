@@ -13,6 +13,9 @@ import {
   SyncOutlined
 } from '@ant-design/icons'
 import { doLikeAction, fetchCategory, fetchPosts } from '../../gql'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store/rootReducers'
+import { LikePayload } from '../../store/home/types'
 
 const Home = (props: RouteComponentProps) => {
   const limit = 10
@@ -21,7 +24,8 @@ const Home = (props: RouteComponentProps) => {
   const { data: Categories } = useQuery(fetchCategory)
   const [category, setCategory] = useState('')
   const [handleLike] = useMutation(doLikeAction)
-  const [posts, setPosts] = useState([])
+  const likeMapFromRedux = useSelector<RootState, LikePayload>(state => state.home.likeMap)
+  const [likeMapFormRemote, setLikeMapFromRemote] = useState<any>({})
 
   useEffect(() => {
     if (Categories && !category) {
@@ -33,7 +37,11 @@ const Home = (props: RouteComponentProps) => {
   }, [Categories])
 
   useEffect(() => {
-
+    if (data) {
+      const obj = Object.create(null)
+      data.posts.data.forEach(({ _id, likes }: any) => { obj[_id] = likes.map(({ _id }:any) => _id) })
+      setLikeMapFromRemote(obj)
+    }
   }, [data])
   const onBtnClick = async (value: string) => {
     setCategory(value)
@@ -49,11 +57,19 @@ const Home = (props: RouteComponentProps) => {
     setPage(p)
   }
 
-  const handleLikeBtnClick = async (pid: any, uid: any, likes: any) => {
+  const handleLikeBtnClick = async (pid: any, index: number) => {
+    // const { id: uid } = user
+    // const index = likes.findIndex(({ _id }) => _id === uid)
+    // dispatch(addToLikeMap({ [pid]: index === -1 }))
     await handleLike({
       variables: {
         target: pid
       }
+      // update: (cache, { data: { post } }) => {
+      //   const data:any = cache.readQuery({ query: fetchPosts })
+      //   data.posts.data = [...data.posts.data.slice(0, index), post, ...data.posts.data.slice(index + 1, -1)]
+      //   cache.writeQuery({ query: fetchPosts }, data)
+      // }
     })
   }
 
@@ -77,10 +93,10 @@ const Home = (props: RouteComponentProps) => {
         <ul>
           {
             data.posts.data.length === 0 && <Empty description={'暂无数据'}/>
-
           }
           {
-            data.posts.data.map(({ _id, likes, images, comments, title, author: { name, _id: selfID }, createdAt }: any) =>
+            data.posts.data.map(({ _id, likes, images, comments, title, author: { name, _id: selfID }, createdAt }
+            :{ _id: string, likes: any[], images: string[], comments: any[], title: string, author: any, createdAt: any}, index: number) =>
               <li key={_id}>
                 <div className={'left-panel'}>
                   <div className={'top-info'}>
@@ -93,10 +109,10 @@ const Home = (props: RouteComponentProps) => {
                       className={'btn-like'}
                       type={'link'}
                       icon={
-                        likes.findIndex(({ _id: uid }: { _id: any }) => uid === selfID) !== -1 ? <HeartFilled style={{ color: '#F56565' }}/> : <HeartOutlined/>}
-                      onClick={() => handleLikeBtnClick(_id, selfID, likes)}
+                        likes.findIndex(({ _id: uid }: { _id: any }) => uid === selfID) !== -1 || likeMapFromRedux[_id] ? <HeartFilled style={{ color: '#F56565' }}/> : <HeartOutlined/>}
+                      onClick={() => handleLikeBtnClick(_id, index)}
                     >
-                      {likes.length}
+                      { likeMapFormRemote[_id]?.length }
                     </Button>
                     <Button className={'btn-comment'} type={'link'}
                       icon={<CommentOutlined/>}>{comments.length}</Button>

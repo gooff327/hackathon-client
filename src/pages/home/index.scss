@@ -39,14 +39,11 @@
       justify-content: center;
     }
     .pagination-btn-wrapper {
-      position: sticky;
-      right: 100px;
-      bottom: 100px;
       z-index: 99;
       display: flex;
       justify-content: flex-end;
       button {
-        margin-right: 16px;
+        margin: 16px;
         transition: all ease-in-out .3s;
       }
     }

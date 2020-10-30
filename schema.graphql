@@ -20,7 +20,7 @@ type Comment {
     _id: ID!
     author: User!
     content: String!
-    createAt(format: String): String!
+    createdAt(format: String): String!
     replies: [Reply]!
     type: CommentTarget!
 }

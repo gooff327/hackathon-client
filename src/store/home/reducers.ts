@@ -10,7 +10,10 @@ const homeReducer = (state = initialState, { type, payload }: HomeActionTypes) =
     case HomeActionEnumTypes.REMOVE_POST_TO_LIKE:
       return {
         ...state,
-        ...payload
+        likeMap: {
+          ...state.likeMap,
+          ...payload
+        }
       }
     default: return state
   }
