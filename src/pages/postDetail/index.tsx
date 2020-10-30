@@ -75,7 +75,7 @@ const PostDetailPage = () => {
           <span className={'author-name'}>
             {data.post.author.name}
           </span>
-          <span className={'create-time'}>{ data.post.createdAt}</span>
+          <span className={'create-time'}>{ dayjs(Number(data.post.createdAt)).format('YYYY年MM月DD日 HH:MM')}</span>
         </div>
 
       </div>

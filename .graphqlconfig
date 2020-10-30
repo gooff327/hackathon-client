@@ -4,7 +4,7 @@
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {
-        "url": "http://www.gooff.tech/graphql",
+        "url": "http://192.168.20.182:12345/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },
