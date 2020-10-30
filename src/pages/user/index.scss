@@ -1,3 +1,5 @@
+@import "src/styles/variable";
+
 .user-page {
   width: 100%;
   display: flex;
@@ -6,6 +8,7 @@
   .minor-area {
     flex: 0 0 300px;
     padding: 20px;
+    height: 200px;
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
@@ -21,13 +24,17 @@
         align-items: center;
         margin-right: 20px;
 
-        img {
+        .avatar {
           width: 80px;
           height: 80px;
           border-radius: 50%;
+          font-size: 25px;
+          color: #fff;
+          font-weight: 500;
+          background-color: #73d13d;
         }
 
-        span {
+        .edit {
           font-size: 14px;
           color: #72777b;
           margin-top: 10px;
@@ -106,5 +113,66 @@
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+
+    ul {
+      padding: 0;
+
+      li {
+        padding: 12px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        width: 100%;
+        border-bottom: $gray-300 1px solid;
+        height: 140px;
+      }
+
+      .left-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+
+        button {
+          padding: 0 20px 0 0;
+          color: $gray-500;
+          cursor: pointer;
+
+          span {
+            padding-right: 6px;
+          }
+        }
+
+        .top-info {
+          color: $gray-600;
+          font-size: 12px;
+          text-align: left;
+
+          span:first-child {
+            margin-right: 12px;
+          }
+        }
+
+        h3 {
+          margin-bottom: 0;
+          cursor: pointer;
+
+          &:hover {
+            color: #40a9ff;
+            text-decoration-line: underline;
+          }
+        }
+
+        .btn-like:hover, .btn-like-active, .btn-like:active, .btn-like:focus {
+          color: #F56565;
+        }
+
+        .btn-comment:hover {
+          color: #40a9ff;
+        }
+      }
+    }
   }
 }
