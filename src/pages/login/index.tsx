@@ -59,8 +59,8 @@ const Login = () => {
   const changeLoginState = (data: any) => {
     setVisible(false)
     setToLocalStorage('token', data.token)
-    const { _id, email, avatar, role, verified, name } = data.user
-    const user = { id: _id, email, avatar, name, role, verified }
+    const { _id, email, avatar, role, verified, name, desc } = data.user
+    const user = { id: _id, email, avatar, name, role, verified, desc }
     setToLocalStorage('me', user)
     dispatch(updateUser(user))
     setContext((_, { headers }) => {

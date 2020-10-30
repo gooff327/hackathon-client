@@ -4,7 +4,7 @@ import { getFromLocalStorage } from '../../utils'
 const me = getFromLocalStorage('me')
 
 const initialState: UserState = {
-  me: me || { id: '', email: '', avatar: '', role: '', verified: false, name: '' }
+  me: me || { id: '', email: '', avatar: '', role: '', verified: false, name: '', desc: '' }
 }
 
 const userReducer = (state = initialState, action: UserActionTypes) => {

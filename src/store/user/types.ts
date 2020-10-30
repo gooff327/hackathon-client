@@ -5,6 +5,7 @@ export interface User {
   verified: boolean
   role: string
   name: string
+  desc?: string
 }
 
 export enum UserActionTypesEnum {
