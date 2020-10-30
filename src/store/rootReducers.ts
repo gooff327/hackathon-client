@@ -3,11 +3,9 @@ import {
   useSelector as useReduxSelector,
   TypedUseSelectorHook
 } from 'react-redux'
-import homeReducer from './home/reducers'
 import userReducer from './user/reducers'
 
 const rootReducer = combineReducers({
-  home: homeReducer,
   user: userReducer
 })
 

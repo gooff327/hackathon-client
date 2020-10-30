@@ -13,9 +13,6 @@ import {
   SyncOutlined
 } from '@ant-design/icons'
 import { doLikeAction, fetchCategory, fetchPosts } from '../../gql'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store/rootReducers'
-import { LikePayload } from '../../store/home/types'
 
 const Home = (props: RouteComponentProps) => {
   const limit = 10
@@ -24,8 +21,6 @@ const Home = (props: RouteComponentProps) => {
   const { data: Categories } = useQuery(fetchCategory)
   const [category, setCategory] = useState('')
   const [handleLike] = useMutation(doLikeAction)
-  const likeMapFromRedux = useSelector<RootState, LikePayload>(state => state.home.likeMap)
-  const [likeMapFormRemote, setLikeMapFromRemote] = useState<any>({})
 
   useEffect(() => {
     if (Categories && !category) {
@@ -36,13 +31,6 @@ const Home = (props: RouteComponentProps) => {
     }
   }, [Categories])
 
-  useEffect(() => {
-    if (data) {
-      const obj = Object.create(null)
-      data.posts.data.forEach(({ _id, likes }: any) => { obj[_id] = likes.map(({ _id }:any) => _id) })
-      setLikeMapFromRemote(obj)
-    }
-  }, [data])
   const onBtnClick = async (value: string) => {
     setCategory(value)
     await getPosts({
@@ -58,18 +46,10 @@ const Home = (props: RouteComponentProps) => {
   }
 
   const handleLikeBtnClick = async (pid: any, index: number) => {
-    // const { id: uid } = user
-    // const index = likes.findIndex(({ _id }) => _id === uid)
-    // dispatch(addToLikeMap({ [pid]: index === -1 }))
     await handleLike({
       variables: {
         target: pid
       }
-      // update: (cache, { data: { post } }) => {
-      //   const data:any = cache.readQuery({ query: fetchPosts })
-      //   data.posts.data = [...data.posts.data.slice(0, index), post, ...data.posts.data.slice(index + 1, -1)]
-      //   cache.writeQuery({ query: fetchPosts }, data)
-      // }
     })
   }
 
@@ -109,10 +89,10 @@ const Home = (props: RouteComponentProps) => {
                       className={'btn-like'}
                       type={'link'}
                       icon={
-                        likes.findIndex(({ _id: uid }: { _id: any }) => uid === selfID) !== -1 || likeMapFromRedux[_id] ? <HeartFilled style={{ color: '#F56565' }}/> : <HeartOutlined/>}
+                        likes.findIndex(({ _id: uid }: { _id: any }) => uid === selfID) !== -1 ? <HeartFilled style={{ color: '#F56565' }}/> : <HeartOutlined/>}
                       onClick={() => handleLikeBtnClick(_id, index)}
                     >
-                      { likeMapFormRemote[_id]?.length }
+                      { likes.length }
                     </Button>
                     <Button className={'btn-comment'} type={'link'}
                       icon={<CommentOutlined/>}>{comments.length}</Button>
