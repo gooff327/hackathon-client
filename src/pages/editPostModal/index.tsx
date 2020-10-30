@@ -32,7 +32,7 @@ const UPLOAD_IMAGE = gql`
 const CREATE_POST = gql`
     mutation createPost($input: NewPostInput!) {
       createPost(input: $input) {
-        id,
+        _id,
       }
     }
 `
@@ -49,6 +49,7 @@ const EditPostForm:React.FC<EditPostFormProps> = ({
   const [uploadImage] = useMutation(UPLOAD_IMAGE)
 
   const [fileList, setFileList] = useState([])
+  const [postImages, setPostImages] = useState([])
 
   const onClick = (value:any) => {
     setPostType({
@@ -74,8 +75,12 @@ const EditPostForm:React.FC<EditPostFormProps> = ({
   const onOk = () => {
     form.validateFields()
       .then(values => {
-        form.resetFields()
-        onCreate(values as any)
+        console.log(values)
+        const input = {
+          ...values,
+          images: postImages
+        }
+        onCreate(input as any)
       })
       .catch(err => {
         console.log('Validate failed', err)
@@ -83,7 +88,6 @@ const EditPostForm:React.FC<EditPostFormProps> = ({
   }
 
   const onCancel1 = () => {
-    console.log(form.getFieldsValue())
     onCancel()
   }
 
@@ -103,7 +107,10 @@ const EditPostForm:React.FC<EditPostFormProps> = ({
     beforeUpload: (file: File) => {
       uploadImage({ variables: { file } })
         .then(({ data: { sendImageToCloud: { message, res } } }) => {
-          console.log('message', message, res)
+          setPostImages((postImages || []).concat(res))
+        })
+        .catch(() => {
+          console.log('error')
         })
       return false
     }
@@ -185,7 +192,7 @@ const EditPostModal = () => {
   const [createPost] = useMutation(CREATE_POST)
 
   const onCreate = (input:Values) => {
-    console.log('values', input)
+    console.log('input', input)
     createPost({ variables: { input } })
       .then(({ data }) => {
         console.log(data)

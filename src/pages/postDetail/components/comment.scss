@@ -1,0 +1,52 @@
+.comment {
+
+  .comment-list {
+    margin:  0 50px;
+
+    .comment-reply {
+      margin-top: 15px;
+    }
+
+    .comment-right{
+      display: flex;
+      flex-direction: column;
+
+      .author {
+        color: #9e9e9e;
+        padding-top: 5px;
+        border-top: 1px solid #f1f1f1;
+      }
+
+      .ant-collapse-header {
+        padding-left: 0!important;
+      }
+
+      .comment-input-area {
+        margin: 0;
+      }
+
+      .comment-right-content {
+        margin: 8px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        .reply {
+          color:#8a93a0;
+          cursor: pointer;
+          min-width: 60px;
+          margin-left: 10px;
+
+          &:hover{
+            color: #71777c;
+          }
+        }
+      }
+
+      .time {
+        color: #71777c;
+        font-size: 12px;
+      }
+    }
+  }
+}

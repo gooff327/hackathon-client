@@ -73,9 +73,9 @@ const Login = () => {
     })
   }
   const onFinish = async (values:any) => {
-    const { email, password } = values
+    const { email, password, name } = values
     if (!emailStatus?.email?.available) {
-      await signUp({ variables: { email, password } })
+      await signUp({ variables: { email, password, name } })
         .then(({ data }: any) => {
           changeLoginState(data.signUp)
         })
@@ -98,7 +98,7 @@ const Login = () => {
   }
 
   return (<div className={'login'}>
-    <a onClick={handleSetVisible.bind(null, true)}>登录</a>
+    <a onClick={handleSetVisible.bind(null, true)}>登录/注册</a>
     <Modal
       title= { emailStatus && !emailStatus?.email?.available ? '注册' : '登录'}
       className={'login-modal'}
