@@ -4,6 +4,7 @@ import { List, Button } from 'antd'
 import { CommentOutlined, HeartOutlined } from '@ant-design/icons'
 import ButtonGroup from 'antd/lib/button/button-group'
 import { RouteComponentProps } from 'react-router'
+import dayjs from 'dayjs'
 
 interface PostProps {
   post: Post[]
@@ -42,7 +43,7 @@ const ListView:FunctionComponent<RouteComponentProps & PostProps> = (
           <div className={'left-panel'}>
             <div className={'top-info'}>
               <span>{name}</span>
-              <span>{createdAt}</span>
+              <span>{dayjs(Number(createdAt)).format('YYYY年MM月DD日 HH:MM')}</span>
             </div>
             <h3>{title}</h3>
             <ButtonGroup>
