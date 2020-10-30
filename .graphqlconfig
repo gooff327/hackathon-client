@@ -4,7 +4,7 @@
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {
-        "url": "http://localhost:12345",
+        "url": "http://www.gooff.tech/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },

@@ -62,7 +62,7 @@ type Mutation {
     sendImageToCloud(file: Image!): UploadResponse!
     signIn(input: SignInInput!): AuthUser!
     signUp(input: SignUpInput!): AuthUser!
-    updateMe(input: UpdateUserInput!): User
+    updateMe(input: UpdateUserInput!): User!
     updateSettings(input: UpdateSettingsInput!): Settings!
 }
 
