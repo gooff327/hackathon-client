@@ -8,10 +8,10 @@ import './style.scss'
 import { Avatar, Image, Spin } from 'antd'
 import { CommentOutlined, SyncOutlined } from '@ant-design/icons'
 
-const QUERY_SPECIFIC_POST = gql`
+export const QUERY_SPECIFIC_POST = gql`
     query querySpecificPost($id:ID!){
             post(id: $id){
-                title content images isPublic createdAt
+                 _id title content images isPublic createdAt
                 author{
                     email
                     avatar
@@ -53,6 +53,8 @@ const PostDetailPage = () => {
   })
   const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae']
 
+  console.log('id', data)
+
   const getColor = (name:string) => {
     return (name.charCodeAt(0) - 'A'.charCodeAt(0)) % 4
   }
@@ -80,7 +82,7 @@ const PostDetailPage = () => {
       </div>
       <div className={'content'}>
         <h1 style={{ padding: '10px 0' }}>{data.post.title}</h1>
-        <pre>{data.post.content}</pre>
+        <p>{data.post.content}</p>
         {
           data.post.images.map((item:string) => <Image
             width={200}
@@ -91,7 +93,7 @@ const PostDetailPage = () => {
           />)
         }
       </div>
-      <Comments comment={data.post.comments} id={id}/>
+      <Comments comments={data.post.comments} id={id as string}/>
     </div>
   }
   return null
