@@ -20,6 +20,7 @@ import { PostFilter } from '../../store/home/types'
 import {
   updateCategory, updateSort
 } from '../../store/home/actions'
+import dayjs from 'dayjs'
 
 const Home = (props: RouteComponentProps) => {
   const limit = 10
@@ -164,7 +165,7 @@ const Home = (props: RouteComponentProps) => {
                 <div className={'left-panel'}>
                   <div className={'top-info'}>
                     <span>{name}</span>
-                    <span>{createdAt}</span>
+                    <span>{dayjs(Number(createdAt)).format('YYYY年MM月DD日 HH:MM')}</span>
                   </div>
                   <h3 onClick={handleNavToDetail.bind(null, _id)}>{title}</h3>
                   <ButtonGroup>

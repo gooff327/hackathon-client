@@ -103,7 +103,7 @@ const Comments = ({ comments, id }: { comments: any, id: string}) => {
                   />
                 </Collapse.Panel>
               </Collapse>
-              <span className={'time'}>{ item.createdAt}</span>
+              <span className={'time'}>{ dayjs(Number(item.createdAt)).format('YYYY年MM月DD日 HH:MM')}</span>
               {
                 item.replies.map((item:any, index:number) => <div key={index} className={'comment-reply'}>
                   <Row justify={'start'} gutter={[48, 12]} align={'top'}>
@@ -134,7 +134,7 @@ const Comments = ({ comments, id }: { comments: any, id: string}) => {
                           />
                         </Collapse.Panel>
                       </Collapse>
-                      <span className={'time'}>{ item.createdAt}</span>
+                      <span className={'time'}>{ dayjs(Number(item.createdAt)).format('YYYY年MM月DD日 HH:MM')}</span>
                     </Col>
                   </Row>
 
