@@ -2,11 +2,10 @@ import React from 'react'
 import { gql } from 'apollo-boost'
 import { useQuery } from '@apollo/react-hooks'
 import qs from 'querystring'
-import dayjs from 'dayjs'
 import Comments from './components/comments'
 import './style.scss'
 import { Avatar, Image, Spin } from 'antd'
-import { CommentOutlined, SyncOutlined } from '@ant-design/icons'
+import { SyncOutlined } from '@ant-design/icons'
 
 export const QUERY_SPECIFIC_POST = gql`
     query querySpecificPost($id:ID!){
@@ -53,8 +52,6 @@ const PostDetailPage = () => {
     variables: { id }
   })
   const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae']
-
-  console.log('id', data)
 
   const getColor = (name:string) => {
     return (name.charCodeAt(0) - 'A'.charCodeAt(0)) % 4

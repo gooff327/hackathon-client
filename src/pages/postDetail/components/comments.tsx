@@ -11,16 +11,21 @@ import { QUERY_SPECIFIC_POST } from '../index'
 export const COMMENT = gql`
   mutation addComment($target:ID!,$type:CommentTarget!,$content:String!,$to:ID) {
     addComment(input: {content: $content, target: $target, type:$type, to:$to}) {
-      _id   
-      author {
-        name
-      }
-      type
-      content
-      createdAt
-      replies {
         _id
-      }
+        author {
+            name
+        }
+        type
+        content
+        createdAt
+        replies {
+            _id
+            author {
+                name
+            }
+            content
+            createdAt
+        }
     }
   }
 `
@@ -33,24 +38,20 @@ const Comments = ({ comments, id }: { comments: any, id: string}) => {
 
   const [addComment] = useMutation(COMMENT)
 
-  console.log(comments)
-
-  const handleSubmit = (type:string, target:string, comment:string) => {
-    console.log(type, id, comment)
-    addComment({
-      variables: { type, target, content: comment },
-      update: (cache, { data: { addComment: comment } }) => {
-        console.log(comment, 'comment')
-        const data:any = cache.readQuery({ query: QUERY_SPECIFIC_POST })
-        console.log('data', data)
-        data.post.comments = [...data.post.comments, addComment]
-        cache.writeQuery({ query: QUERY_SPECIFIC_POST, data })
-      }
+  const handleSubmit = async (type:string, target:string, comment:string) => {
+    await addComment({
+      variables: { type, target, content: comment }
+      // update: (cache, { data: { addComment: comment } }) => {
+      //   const data:any = cache.readQuery({ query: QUERY_SPECIFIC_POST, variables: { id: target } })
+      //   console.log(comment, data.post.comments)
+      //   data.post.comments = [comment, ...data.post.comments]
+      //
+      //   const newComments = [comment, ...data.post.comments]
+      //   const newData = { ...data, ...{ post: data.post }, ...{ post: { comments: newComments } } }
+      //   cache.writeQuery({ query: QUERY_SPECIFIC_POST, variables: { id: target }, data: newData })
+      // }
     })
-      .then(({ data }) => {
-        console.log(data)
-        setActiveKey('')
-      })
+    setActiveKey('')
   }
 
   const handleReply = (index:string) => {
