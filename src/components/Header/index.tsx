@@ -7,15 +7,21 @@ import EditPostModal from '../../pages/EditPostModal'
 import { useHistory } from 'react-router-dom'
 import Login from '../../pages/login'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/rootReducers'
 import { User } from '../../store/user/types'
 import './style.scss'
+import { PostFilter } from '../../store/home/types'
+import { updateKeyword } from '../../store/home/actions'
 
 const HeaderContent = () => {
   const [pathname, setPathname] = useState('')
   const history = useHistory()
   const user = useSelector<RootState, User>(state => state.user.me)
+  const { keyword: keywordFormRedux } = useSelector<RootState, PostFilter>(state => state.home.filters)
+  const [keyword, setKeyword] = useState('')
+  const dispatch = useDispatch()
+
   useEffect(() => {
     setPathname(location.pathname)
   }, [])
@@ -23,6 +29,11 @@ const HeaderContent = () => {
     setPathname(path)
     history.push(path)
   }
+
+  const onSearch = () => {
+    dispatch(updateKeyword({ keyword }))
+  }
+
   return <div className={'header-content'}>
     {
       routes.filter(route => !route.hide).map(({ name, path }) => {
@@ -36,10 +47,18 @@ const HeaderContent = () => {
       }
       )
     }
-    <Input placeholder={'请输入关键字'} suffix={<SearchOutlined/>}/>
+    <Input
+      allowClear
+      defaultValue={keywordFormRedux}
+      placeholder={'请输入关键字'}
+      suffix={<SearchOutlined onClick={onSearch}/>}
+      onChange={({ target: { value } }) => setKeyword(value)}
+      onPressEnter={onSearch}
+    />
     <EditPostModal/>
     {
-      user ? <Avatar src={user.avatar} style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>{ user.name[0]}</Avatar> : <Login/>
+      user ? <Avatar src={user.avatar} style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>{user.name[0]}</Avatar>
+        : <Login/>
     }
   </div>
 }

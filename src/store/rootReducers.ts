@@ -4,9 +4,11 @@ import {
   TypedUseSelectorHook
 } from 'react-redux'
 import userReducer from './user/reducers'
+import homeReducer from './home/reducers'
 
 const rootReducer = combineReducers({
-  user: userReducer
+  user: userReducer,
+  home: homeReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

@@ -208,9 +208,9 @@ input PostFilter {
 }
 
 input Rank {
-    rank: Boolean
     sortByDate: Boolean
-    sortByDateReverse: Boolean
+    sortByHot: Boolean
+    sortReverse: Boolean
 }
 
 input SignInInput {
