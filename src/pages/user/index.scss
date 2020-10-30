@@ -21,13 +21,17 @@
         align-items: center;
         margin-right: 20px;
 
-        img {
+        .avatar {
           width: 80px;
           height: 80px;
           border-radius: 50%;
+          font-size: 25px;
+          color: #fff;
+          font-weight: 500;
+          background-color: #73d13d;
         }
 
-        span {
+        .edit {
           font-size: 14px;
           color: #72777b;
           margin-top: 10px;
