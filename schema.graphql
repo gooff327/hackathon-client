@@ -102,7 +102,7 @@ type Reply {
     _id: ID!
     author: User!
     content: String!
-    createAt(format: String): String!
+    createdAt(format: String): String!
     to: User
     type: CommentTarget!
 }
@@ -130,6 +130,7 @@ type User {
     _id: ID!
     avatar: String
     createdAt(format: String): String!
+    desc: String!
     email: String!
     lastLoginAt(format: String): String!
     name: String!
@@ -232,6 +233,7 @@ input UpdateSettingsInput {
 
 input UpdateUserInput {
     avatar: String
+    desc: String
     email: String
     verified: Boolean
 }

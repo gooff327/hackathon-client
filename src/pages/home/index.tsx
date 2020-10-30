@@ -13,6 +13,7 @@ import {
   SyncOutlined
 } from '@ant-design/icons'
 import { doLikeAction, fetchCategory, fetchPosts } from '../../gql'
+import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/rootReducers'
 import { PostFilter } from '../../store/home/types'
@@ -40,6 +41,8 @@ const Home = (props: RouteComponentProps) => {
       }
     })
   }, [filter])
+
+  const history = useHistory()
 
   useEffect(() => {
     if (Categories) {
@@ -74,6 +77,10 @@ const Home = (props: RouteComponentProps) => {
 
   const handleUpdateSort = (payload : any) => {
     dispatch(updateSort(payload))
+  }
+
+  const handleNavToDetail = (id:string) => {
+    history.push(`/detail?id=${id}`)
   }
 
   if (loading) {
@@ -133,7 +140,7 @@ const Home = (props: RouteComponentProps) => {
           {
             data.posts.data.map(({ _id, likes, images, comments, title, author: { name, _id: selfID }, createdAt }
             :{ _id: string, likes: any[], images: string[], comments: any[], title: string, author: any, createdAt: any}, index: number) =>
-              <li key={_id}>
+              <li key={_id} onClick={handleNavToDetail.bind(null, _id)}>
                 <div className={'left-panel'}>
                   <div className={'top-info'}>
                     <span>{name}</span>

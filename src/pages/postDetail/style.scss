@@ -1,0 +1,34 @@
+.post-detail {
+  flex: 1 1 auto;
+  margin: 20px auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 960px;
+  background: white;
+  padding: 20px 30px;
+  height: 100%;
+
+  .author {
+    display: flex;
+    .author-right {
+      display: flex;
+      flex-direction: column;
+      margin-left: 15px;
+
+      .author-name {
+        font-weight: 500;
+        font-size: 20px;
+      }
+
+      .create-time {
+        color: #909090;
+      }
+    }
+  }
+
+  .content {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f1f1f1;
+  }
+}
