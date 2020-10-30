@@ -13,18 +13,37 @@ import {
   SyncOutlined
 } from '@ant-design/icons'
 import { doLikeAction, fetchCategory, fetchPosts } from '../../gql'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../store/rootReducers'
+import { PostFilter } from '../../store/home/types'
+import {
+  updateCategory, updateSort
+} from '../../store/home/actions'
 
 const Home = (props: RouteComponentProps) => {
   const limit = 10
-  const [page, setPage] = useState(1)
+  const defaultPage = 1
+  const [page, setPage] = useState(defaultPage)
   const [getPosts, { loading, data }] = useLazyQuery(fetchPosts)
   const { data: Categories } = useQuery(fetchCategory)
-  const [category, setCategory] = useState('')
   const [handleLike] = useMutation(doLikeAction)
+  const dispatch = useDispatch()
+  const filter = useSelector<RootState, PostFilter>(state => state.home.filters)
 
   useEffect(() => {
-    if (Categories && !category) {
-      setCategory(Categories.category[0].value)
+    console.log(filter)
+    getPosts({
+      variables: {
+        limit,
+        page: defaultPage,
+        ...filter
+      }
+    })
+  }, [filter])
+
+  useEffect(() => {
+    if (Categories) {
+      dispatch(updateCategory({ category: Categories.category[0].value }))
       getPosts({
         variables: { category: Categories.category[0].value, keyword: '', page, limit }
       })
@@ -32,7 +51,7 @@ const Home = (props: RouteComponentProps) => {
   }, [Categories])
 
   const onBtnClick = async (value: string) => {
-    setCategory(value)
+    dispatch(updateCategory({ category: value }))
     await getPosts({
       variables: { category: value, keyword: '', limit, page: 1 }
     })
@@ -40,7 +59,7 @@ const Home = (props: RouteComponentProps) => {
 
   const handleFetchMore = async (p: number) => {
     await getPosts({
-      variables: { category, keyword: '', limit, page: p }
+      variables: { ...filter, limit, page: p }
     })
     setPage(p)
   }
@@ -53,6 +72,10 @@ const Home = (props: RouteComponentProps) => {
     })
   }
 
+  const handleUpdateSort = (payload : any) => {
+    dispatch(updateSort(payload))
+  }
+
   if (loading) {
     return <Spin spinning={loading} indicator={<SyncOutlined spin/>}/>
   }
@@ -61,7 +84,7 @@ const Home = (props: RouteComponentProps) => {
       <section className={'home-wrapper'}>
         <div className={'sub-header fixed-header shadow'}>{Categories.category.map(({ label, value }: any) =>
           <Button
-            className={category === value ? 'btn-active' : ''}
+            className={filter.category === value ? 'btn-active' : ''}
             key={value}
             type={'link'}
             onClick={() => onBtnClick(value)}
@@ -70,6 +93,39 @@ const Home = (props: RouteComponentProps) => {
           </Button>)}
         </div>
         <div className={'sub-header'}/>
+        <div className={'sort-wrapper'}>
+          <Button
+            shape={'round'}
+            type={filter.sortByDate && filter.sortReverse ? 'primary' : 'default'}
+            size={'small'}
+            onClick={() => handleUpdateSort({ sortReverse: true, sortByDate: true, sortByHot: false })}
+          >
+            按日期降序
+          </Button>
+          <Button
+            shape={'round'}
+            type={filter.sortByDate && !filter.sortReverse ? 'primary' : 'default'}
+            size={'small'}
+            onClick={() => handleUpdateSort({ sortReverse: false, sortByDate: true, sortByHot: false })}
+          >
+            按日期升序
+          </Button>  <Button
+            shape={'round'}
+            type={filter.sortByHot && filter.sortReverse ? 'primary' : 'default'}
+            size={'small'}
+            onClick={() => handleUpdateSort({ sortReverse: true, sortByDate: false, sortByHot: true })}
+          >
+            按热度降序
+          </Button>
+          <Button
+            shape={'round'}
+            type={filter.sortByHot && !filter.sortReverse ? 'primary' : 'default'}
+            size={'small'}
+            onClick={() => handleUpdateSort({ sortReverse: false, sortByDate: false, sortByHot: true })}
+          >
+            按热度升序
+          </Button>
+        </div>
         <ul>
           {
             data.posts.data.length === 0 && <Empty description={'暂无数据'}/>
