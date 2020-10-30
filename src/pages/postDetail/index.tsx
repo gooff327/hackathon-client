@@ -25,6 +25,7 @@ export const QUERY_SPECIFIC_POST = gql`
                     _id
                     author {
                         name
+                        avatar
                     }
                     type
                     content
@@ -68,6 +69,7 @@ const PostDetailPage = () => {
           style={{
             background: ColorList[getColor(data?.post?.author?.name?.substr(0, 1).toUpperCase())]
           }}
+          src={data?.post?.author?.avatar}
           size={48}
         >
           {data.post.author.name.substr(0, 1).toUpperCase()}

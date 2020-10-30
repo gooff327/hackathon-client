@@ -82,6 +82,7 @@ const Comments = ({ comments, id }: { comments: any, id: string}) => {
                   background: ColorList[getColor(item?.author?.name?.substr(0, 1).toUpperCase())]
                 }}
                 size={'large'}
+                src={item.author.avatar}
               >
                 {item?.author?.name?.substr(0, 1).toUpperCase()}
               </Avatar>
@@ -112,6 +113,7 @@ const Comments = ({ comments, id }: { comments: any, id: string}) => {
                           background: ColorList[getColor(item?.author?.name?.substr(0, 1).toUpperCase())]
                         }}
                         size={'large'}
+                        src={item.author.avatar}
                       >
                         {item?.author?.name?.substr(0, 1).toUpperCase()}
                       </Avatar>
