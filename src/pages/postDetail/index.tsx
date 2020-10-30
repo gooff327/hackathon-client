@@ -5,8 +5,8 @@ import qs from 'querystring'
 import dayjs from 'dayjs'
 import Comments from './components/comments'
 import './style.scss'
-import { Avatar, Image } from 'antd'
-import { CommentOutlined } from '@ant-design/icons'
+import { Avatar, Image, Spin } from 'antd'
+import { CommentOutlined, SyncOutlined } from '@ant-design/icons'
 
 const QUERY_SPECIFIC_POST = gql`
     query querySpecificPost($id:ID!){
@@ -48,7 +48,7 @@ const QUERY_SPECIFIC_POST = gql`
 
 const PostDetailPage = () => {
   const { id } = qs.parse(location.search.substr(1))
-  const { data } = useQuery(QUERY_SPECIFIC_POST, {
+  const { data, loading } = useQuery(QUERY_SPECIFIC_POST, {
     variables: { id }
   })
   const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae']
@@ -56,7 +56,9 @@ const PostDetailPage = () => {
   const getColor = (name:string) => {
     return (name.charCodeAt(0) - 'A'.charCodeAt(0)) % 4
   }
-
+  if (loading) {
+    return <Spin spinning={loading} indicator={<SyncOutlined spin/>}/>
+  }
   if (data) {
     return <div className={'post-detail'}>
       <div className={'author'}>

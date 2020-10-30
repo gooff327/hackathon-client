@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import routes from '../../constants/routes'
 import { Avatar, Button, Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-import EditPostModal from '../../pages/EditPostModal'
+import EditPostModal from '../../pages/editPostModal'
 
 import { useHistory } from 'react-router-dom'
 import Login from '../../pages/login'
