@@ -32,7 +32,6 @@ const Home = (props: RouteComponentProps) => {
   const filter = useSelector<RootState, PostFilter>(state => state.home.filters)
 
   useEffect(() => {
-    console.log(filter)
     getPosts({
       variables: {
         limit,
@@ -45,7 +44,7 @@ const Home = (props: RouteComponentProps) => {
   const history = useHistory()
 
   useEffect(() => {
-    if (Categories) {
+    if (Categories && !filter.category) {
       dispatch(updateCategory({ category: Categories.category[0].value }))
       getPosts({
         variables: { category: Categories.category[0].value, keyword: '', page, limit }
@@ -101,37 +100,58 @@ const Home = (props: RouteComponentProps) => {
         </div>
         <div className={'sub-header'}/>
         <div className={'sort-wrapper'}>
-          <Button
-            shape={'round'}
-            type={filter.sortByDate && filter.sortReverse ? 'primary' : 'default'}
-            size={'small'}
-            onClick={() => handleUpdateSort({ sortReverse: true, sortByDate: true, sortByHot: false })}
-          >
-            按日期降序
-          </Button>
-          <Button
-            shape={'round'}
-            type={filter.sortByDate && !filter.sortReverse ? 'primary' : 'default'}
-            size={'small'}
-            onClick={() => handleUpdateSort({ sortReverse: false, sortByDate: true, sortByHot: false })}
-          >
-            按日期升序
-          </Button>  <Button
-            shape={'round'}
-            type={filter.sortByHot && filter.sortReverse ? 'primary' : 'default'}
-            size={'small'}
-            onClick={() => handleUpdateSort({ sortReverse: true, sortByDate: false, sortByHot: true })}
-          >
+          <div>
+            <Button
+              shape={'round'}
+              type={filter.sortByDate && filter.sortReverse ? 'primary' : 'default'}
+              size={'small'}
+              onClick={() => handleUpdateSort({ sortReverse: true, sortByDate: true, sortByHot: false })}
+            >
+              按日期降序
+            </Button>
+            <Button
+              shape={'round'}
+              type={filter.sortByDate && !filter.sortReverse ? 'primary' : 'default'}
+              size={'small'}
+              onClick={() => handleUpdateSort({ sortReverse: false, sortByDate: true, sortByHot: false })}
+            >
+              按日期升序
+            </Button>  <Button
+              shape={'round'}
+              type={filter.sortByHot && filter.sortReverse ? 'primary' : 'default'}
+              size={'small'}
+              onClick={() => handleUpdateSort({ sortReverse: true, sortByDate: false, sortByHot: true })}
+            >
             按热度降序
-          </Button>
-          <Button
-            shape={'round'}
-            type={filter.sortByHot && !filter.sortReverse ? 'primary' : 'default'}
-            size={'small'}
-            onClick={() => handleUpdateSort({ sortReverse: false, sortByDate: false, sortByHot: true })}
-          >
-            按热度升序
-          </Button>
+            </Button>
+            <Button
+              shape={'round'}
+              type={filter.sortByHot && !filter.sortReverse ? 'primary' : 'default'}
+              size={'small'}
+              onClick={() => handleUpdateSort({ sortReverse: false, sortByDate: false, sortByHot: true })}
+            >
+              按热度升序
+            </Button>
+          </div>
+          <div className={'pagination-btn-wrapper'}>
+            <Button
+              disabled={!data.posts.hasPrevPage }
+              shape={'round'}
+              size={'small'}
+              className={'shadow-2xl'}
+              onClick={() => handleFetchMore(page - 1)}
+              icon={<ArrowUpOutlined/>}
+            />
+
+            <Button
+              disabled={!data.posts.hasNextPage}
+              size={'small'}
+              shape={'round'}
+              className={'shadow-2xl'}
+              onClick={() => handleFetchMore(page + 1)}
+              icon={<ArrowDownOutlined/>}
+            />
+          </div>
         </div>
         <ul>
           {
@@ -140,13 +160,13 @@ const Home = (props: RouteComponentProps) => {
           {
             data.posts.data.map(({ _id, likes, images, comments, title, author: { name, _id: selfID }, createdAt }
             :{ _id: string, likes: any[], images: string[], comments: any[], title: string, author: any, createdAt: any}, index: number) =>
-              <li key={_id} onClick={handleNavToDetail.bind(null, _id)}>
+              <li key={_id}>
                 <div className={'left-panel'}>
                   <div className={'top-info'}>
                     <span>{name}</span>
                     <span>{createdAt}</span>
                   </div>
-                  <h3>{title}</h3>
+                  <h3 onClick={handleNavToDetail.bind(null, _id)}>{title}</h3>
                   <ButtonGroup>
                     <Button
                       className={'btn-like'}
@@ -157,8 +177,14 @@ const Home = (props: RouteComponentProps) => {
                     >
                       { likes.length }
                     </Button>
-                    <Button className={'btn-comment'} type={'link'}
-                      icon={<CommentOutlined/>}>{comments.length}</Button>
+                    <Button
+                      className={'btn-comment'}
+                      type={'link'}
+                      icon={<CommentOutlined/>}
+                      onClick={handleNavToDetail.bind(null, _id)}
+                    >
+                      {comments.length}
+                    </Button>
                   </ButtonGroup>
                 </div>
                 <div className={'right-panel'}>
@@ -166,27 +192,6 @@ const Home = (props: RouteComponentProps) => {
                 </div>
               </li>
             )
-          }
-          {
-            (data.posts.hasNextPage || data.posts.hasPrevPage) && <div className={'pagination-btn-wrapper'}>
-              {
-                data.posts.hasPrevPage && <Button
-                  shape={'circle'}
-                  className={'shadow-2xl'}
-                  onClick={() => handleFetchMore(page - 1)}
-                  icon={<ArrowUpOutlined/>}
-                />
-
-              }
-              {
-                data.posts.hasNextPage && <Button
-                  shape={'circle'}
-                  className={'shadow-2xl'}
-                  onClick={() => handleFetchMore(page + 1)}
-                  icon={<ArrowDownOutlined/>}
-                />
-              }
-            </div>
           }
         </ul>
 

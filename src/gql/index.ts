@@ -36,6 +36,7 @@ export const fetchPosts = gql`
 export const fetchCategory = gql`
 query {
     category {
+        __typename
         label
         value
     }

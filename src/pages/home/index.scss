@@ -21,14 +21,20 @@
 
   .sort-wrapper {
     margin: 12px 0;
-
+    display: flex;
+    justify-content: space-between;
+    button {
+      margin-right: 12px;
+    }
+    .ant-btn-default {
+      color: $gray-500;
+    }
   }
   ul {
 
     flex: 1;
     padding: 24px;
     background-color: white;
-    //height: 100%;
     overflow: scroll;
     position: relative;
 
@@ -45,9 +51,6 @@
       z-index: 99;
       display: flex;
       justify-content: flex-end;
-      position: sticky;
-      bottom: 0;
-      right: 100px;
       button {
         margin: 16px;
         transition: all ease-in-out .3s;
@@ -84,6 +87,8 @@
         button {
           padding: 0 20px 0 0;
           color: $gray-500;
+          cursor: pointer;
+
           span {
             padding-right: 6px;
           }
@@ -100,6 +105,11 @@
 
         h3 {
           margin-bottom: 0;
+          cursor: pointer;
+          &:hover {
+            color: #40a9ff;
+            text-decoration-line: underline;
+          }
         }
 
         .btn-like:hover, .btn-like-active, .btn-like:active, .btn-like:focus {
