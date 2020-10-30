@@ -6,28 +6,49 @@ import './comment.scss'
 import dayjs from 'dayjs'
 import AddComment from './addComment'
 import { CommentOutlined } from '@ant-design/icons'
+import { QUERY_SPECIFIC_POST } from '../index'
 
-const COMMENT = gql`
+export const COMMENT = gql`
   mutation addComment($target:ID!,$type:CommentTarget!,$content:String!,$to:ID) {
     addComment(input: {content: $content, target: $target, type:$type, to:$to}) {
+      _id   
+      author {
+        name
+      }
+      type
       content
+      createdAt
+      replies {
+        _id
+      }
     }
   }
 `
 
-const Comments = (comments:any, id:string) => {
-  const [commentList, setCommentList] = useState(comments.comment)
+const Comments = ({ comments, id }: { comments: any, id: string}) => {
+  const [commentList, setCommentList] = useState(comments)
   const [activeKey, setActiveKey] = useState('')
 
   const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae']
 
   const [addComment] = useMutation(COMMENT)
 
+  console.log(comments)
+
   const handleSubmit = (type:string, target:string, comment:string) => {
-    addComment({ variables: { type, target, content: comment } })
+    console.log(type, id, comment)
+    addComment({
+      variables: { type, target, content: comment },
+      update: (cache, { data: { addComment: comment } }) => {
+        console.log(comment, 'comment')
+        const data:any = cache.readQuery({ query: QUERY_SPECIFIC_POST })
+        console.log('data', data)
+        data.post.comments = [...data.post.comments, addComment]
+        cache.writeQuery({ query: QUERY_SPECIFIC_POST, data })
+      }
+    })
       .then(({ data }) => {
         console.log(data)
-        setCommentList((prev: any[]) => [{ content: comment, createdAt: dayjs() }, ...prev])
         setActiveKey('')
       })
   }
