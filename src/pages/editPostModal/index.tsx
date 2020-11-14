@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Button, Col, Dropdown, Form, Input, Menu, message, Modal, Row, Switch, Upload } from 'antd'
-import { DownOutlined, FormOutlined, PlusOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { PostTypeTest } from '../../constants/constant'
+import { DownOutlined, PlusOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { EditIcon } from '@chakra-ui/icons'
 import './style.scss'
 import { gql } from 'apollo-boost'
 import { useMutation } from '@apollo/react-hooks'
+import { IconButton } from '@chakra-ui/react'
+import { PostTypeTest } from '../../constants'
 
 interface Values {
   title: string
@@ -192,7 +194,6 @@ const EditPostModal = () => {
   const [createPost] = useMutation(CREATE_POST)
 
   const onCreate = (input:Values) => {
-    console.log('input', input)
     createPost({ variables: { input } })
       .then(({ data }) => {
         console.log(data)
@@ -209,7 +210,7 @@ const EditPostModal = () => {
   }
 
   return <>
-    <Button type={'primary'} onClick={() => setVisible(true)}>发布<FormOutlined/></Button>
+    <IconButton variant={'link'} onClick={() => setVisible(true)} icon={<EditIcon/>} aria-label={'new post'}/>
     <EditPostForm
       visible={visible}
       onCreate={onCreate}

@@ -6,6 +6,7 @@ import Comments from './components/comments'
 import './style.scss'
 import { Avatar, Image, Spin } from 'antd'
 import { SyncOutlined } from '@ant-design/icons'
+import dayjs from 'dayjs'
 
 export const QUERY_SPECIFIC_POST = gql`
     query querySpecificPost($id:ID!){

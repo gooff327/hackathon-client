@@ -23,7 +23,7 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-unused-vars': 0,
     'react/prop-types': 0,
-    'multiline-ternary': ['warn', 'never'],
+    'multiline-ternary': 0,
     '@typescript-eslint/no-use-before-define': ['error']
   }
 }

@@ -12,11 +12,24 @@ code {
 }
 
 #root {
-
+  font-family: "PingFang SC";
+  height: 100%;
   button {
     transition: color ease-in-out .2s;
   }
   .btn-active, .btn-active:focus {
     color: $btn-active-color;
   }
+  section:focus {
+    box-shadow: none;
+  }
+}
+
+
+.login {
+  word-break: keep-all;
+}
+
+.ant-btn-link {
+  color: #71777c;
 }

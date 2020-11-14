@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Form, Input, Modal, message } from 'antd'
+import { Form, Input, Modal, message } from 'antd'
+import { Button } from '@chakra-ui/react'
 import './style.scss'
 import { gql } from 'apollo-boost'
 import { useMutation, useLazyQuery } from '@apollo/react-hooks'
@@ -75,17 +76,17 @@ const Login = () => {
   const onFinish = async (values:any) => {
     const { email, password, name } = values
     if (!emailStatus?.email?.available) {
-      await signUp({ variables: { email, password, name } })
-        .then(({ data }: any) => {
-          changeLoginState(data.signUp)
+      await signIn({ variables: { email, password } })
+        .then(({ data }) => {
+          changeLoginState(data.signIn)
         })
         .catch(err => {
           throw err
         })
     } else {
-      await signIn({ variables: { email, password } })
-        .then(({ data }) => {
-          changeLoginState(data.signIn)
+      await signUp({ variables: { email, password, name } })
+        .then(({ data }: any) => {
+          changeLoginState(data.signUp)
         })
         .catch(err => {
           throw err
@@ -98,7 +99,7 @@ const Login = () => {
   }
 
   return (<div className={'login'}>
-    <a onClick={handleSetVisible.bind(null, true)}>登录/注册</a>
+    <Button className={'login-btn'} onClick={handleSetVisible.bind(null, true)}>登录/注册</Button>
     <Modal
       title= { emailStatus && !emailStatus?.email?.available ? '注册' : '登录'}
       className={'login-modal'}
@@ -133,7 +134,7 @@ const Login = () => {
           <Input.Password placeholder={'请输入密码'} allowClear/>
         </Form.Item>
         <Form.Item className={'login-button'}>
-          <Button type="primary" htmlType="submit">
+          <Button type={'submit'}>
             { emailStatus && !emailStatus?.email?.available ? '注册' : '登录'}
           </Button>
         </Form.Item>

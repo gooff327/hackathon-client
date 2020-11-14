@@ -11,18 +11,17 @@ export interface Comment {
   target: string
 }
 
-export interface Post{
-  id: string
-  loading?: boolean
-  author: PubicUserInfo
-  category: string
-  comments: Comment[]
-  content: String
-  createdAt: string
-  images: string[]
-  isPublic: boolean
-  likes: PubicUserInfo[]
-  title: String
-  updatedAt: string
-  views: number
+export interface PostType {
+  _id: string,
+  likes: any[],
+  images: string[],
+  comments: Comment[],
+  title: string,
+  author: any,
+  createdAt: any,
+  content: string,
+  category: {
+    value: string
+    label: string
+  }
 }
