@@ -3,15 +3,16 @@ import React from 'react'
 import './addComment.scss'
 
 interface commentProps{
-  handleSubmit:(comment:string)=>void
+  handleSubmit:(comment:string)=>Promise<any>
   onBlur:(e:any)=>void
 }
 
 const AddComment:React.FC<commentProps> = ({ handleSubmit, onBlur }) => {
   const [form] = Form.useForm()
 
-  const onFinish = (values:any) => {
-    handleSubmit(values.comment)
+  const onFinish = async (values:any) => {
+    await handleSubmit(values.comment)
+    form.setFieldsValue({ comment: '' })
   }
 
   return <div className={'comment-input-area'}>

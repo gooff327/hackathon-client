@@ -59,7 +59,7 @@ const UserInfo = (props:any) => {
           <span className="text">关注</span>
         </div>
         <div className="follow-item">
-          <span className="num">0</span>
+          <span className="num">{props?.data?.me?.posts?.length || 0}</span>
           <span className="text">文章</span>
         </div>
       </div>
@@ -136,7 +136,7 @@ const UserCon = (props: RouteComponentProps) => {
   return (
     <div className='user-page'>
       <div className='minor-area'>
-        <UserInfo goToUserProfile={goToUserProfile}/>
+        <UserInfo data={data} goToUserProfile={goToUserProfile}/>
       </div>
       <div className='major-area'>
         {

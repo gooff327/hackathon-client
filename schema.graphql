@@ -91,6 +91,7 @@ type Query {
     category: [Category]!
     email(email: String!): EmailStatus!
     feed: [Post]!
+    hotPosts: [Post]!
     me: User!
     post(id: ID!): Post!
     posts(filter: PostFilter, pagination: Pagination, rank: Rank): Posts!

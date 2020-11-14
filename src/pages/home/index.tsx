@@ -20,7 +20,12 @@ import { PostFilter } from '../../store/home/types'
 import {
   updateCategory, updateSort
 } from '../../store/home/actions'
-import dayjs from 'dayjs'
+import Trending from './components/Trending'
+import { Box, Flex, Link, Text } from '@chakra-ui/react'
+import PostSource from './components/PostSource'
+import { PostType } from '../../types'
+import Post from './components/Post'
+import PostFooter from './components/PostFooter'
 
 const Home = (props: RouteComponentProps) => {
   const limit = 10
@@ -33,6 +38,7 @@ const Home = (props: RouteComponentProps) => {
   const filter = useSelector<RootState, PostFilter>(state => state.home.filters)
 
   useEffect(() => {
+    if (filter.category === '') return
     getPosts({
       variables: {
         limit,
@@ -72,6 +78,8 @@ const Home = (props: RouteComponentProps) => {
       variables: {
         target: pid
       }
+    }).catch(error => {
+      throw error
     })
   }
 
@@ -83,123 +91,96 @@ const Home = (props: RouteComponentProps) => {
     history.push(`/detail?id=${id}`)
   }
 
-  if (loading) {
-    return <Spin spinning={loading} indicator={<SyncOutlined spin/>}/>
-  }
-  if (data && Categories) {
-    return (
-      <section className={'home-wrapper'}>
-        <div className={'sub-header fixed-header shadow'}>{Categories.category.map(({ label, value }: any) =>
-          <Button
-            className={filter.category === value ? 'btn-active' : ''}
-            key={value}
-            type={'link'}
-            onClick={() => onBtnClick(value)}
-          >
-            {label}
-          </Button>)}
-        </div>
-        <div className={'sub-header'}/>
-        <div className={'sort-wrapper'}>
-          <div>
-            <Button
-              shape={'round'}
-              type={filter.sortByDate && filter.sortReverse ? 'primary' : 'default'}
-              size={'small'}
-              onClick={() => handleUpdateSort({ sortReverse: true, sortByDate: true, sortByHot: false })}
-            >
-              按日期降序
-            </Button>
-            <Button
-              shape={'round'}
-              type={filter.sortByDate && !filter.sortReverse ? 'primary' : 'default'}
-              size={'small'}
-              onClick={() => handleUpdateSort({ sortReverse: false, sortByDate: true, sortByHot: false })}
-            >
-              按日期升序
-            </Button>  <Button
-              shape={'round'}
-              type={filter.sortByHot && filter.sortReverse ? 'primary' : 'default'}
-              size={'small'}
-              onClick={() => handleUpdateSort({ sortReverse: true, sortByDate: false, sortByHot: true })}
-            >
-            按热度降序
-            </Button>
-            <Button
-              shape={'round'}
-              type={filter.sortByHot && !filter.sortReverse ? 'primary' : 'default'}
-              size={'small'}
-              onClick={() => handleUpdateSort({ sortReverse: false, sortByDate: false, sortByHot: true })}
-            >
-              按热度升序
-            </Button>
-          </div>
-          <div className={'pagination-btn-wrapper'}>
-            <Button
-              disabled={!data.posts.hasPrevPage }
-              shape={'round'}
-              size={'small'}
-              className={'shadow-2xl'}
-              onClick={() => handleFetchMore(page - 1)}
-              icon={<ArrowUpOutlined/>}
-            />
-
-            <Button
-              disabled={!data.posts.hasNextPage}
-              size={'small'}
-              shape={'round'}
-              className={'shadow-2xl'}
-              onClick={() => handleFetchMore(page + 1)}
-              icon={<ArrowDownOutlined/>}
-            />
-          </div>
-        </div>
-        <ul>
+  return (
+    <Flex m={'auto'} flex={1} direction={'column'} width={'100%'} maxWidth={'1192px'} className={'home-wrapper'}>
+      <Trending />
+      {/* <Box m={['0 12px', '0 24px', '0 48px', '0 48px']} className={'sort-wrapper'}> */}
+      {/*  <div> */}
+      {/*    <Button */}
+      {/*      shape={'round'} */}
+      {/*      type={filter.sortByDate && filter.sortReverse ? 'primary' : 'default'} */}
+      {/*      size={'small'} */}
+      {/*      onClick={() => handleUpdateSort({ sortReverse: true, sortByDate: true, sortByHot: false })} */}
+      {/*    > */}
+      {/*      按日期降序 */}
+      {/*    </Button> */}
+      {/*    <Button */}
+      {/*      shape={'round'} */}
+      {/*      type={filter.sortByDate && !filter.sortReverse ? 'primary' : 'default'} */}
+      {/*      size={'small'} */}
+      {/*      onClick={() => handleUpdateSort({ sortReverse: false, sortByDate: true, sortByHot: false })} */}
+      {/*    > */}
+      {/*      按日期升序 */}
+      {/*    </Button>  <Button */}
+      {/*      shape={'round'} */}
+      {/*      type={filter.sortByHot && filter.sortReverse ? 'primary' : 'default'} */}
+      {/*      size={'small'} */}
+      {/*      onClick={() => handleUpdateSort({ sortReverse: true, sortByDate: false, sortByHot: true })} */}
+      {/*    > */}
+      {/*    按热度降序 */}
+      {/*    </Button> */}
+      {/*    <Button */}
+      {/*      shape={'round'} */}
+      {/*      type={filter.sortByHot && !filter.sortReverse ? 'primary' : 'default'} */}
+      {/*      size={'small'} */}
+      {/*      onClick={() => handleUpdateSort({ sortReverse: false, sortByDate: false, sortByHot: true })} */}
+      {/*    > */}
+      {/*      按热度升序 */}
+      {/*    </Button> */}
+      {/*  </div> */}
+      {/*  <div className={'pagination-btn-wrapper'}> */}
+      {/*    <Button */}
+      {/*      disabled={!data.posts.hasPrevPage } */}
+      {/*      shape={'round'} */}
+      {/*      size={'small'} */}
+      {/*      className={'shadow-2xl'} */}
+      {/*      onClick={() => handleFetchMore(page - 1)} */}
+      {/*      icon={<ArrowUpOutlined/>} */}
+      {/*    /> */}
+      {/*    <Button */}
+      {/*      disabled={!data.posts.hasNextPage} */}
+      {/*      size={'small'} */}
+      {/*      shape={'round'} */}
+      {/*      className={'shadow-2xl'} */}
+      {/*      onClick={() => handleFetchMore(page + 1)} */}
+      {/*      icon={<ArrowDownOutlined/>} */}
+      {/*    /> */}
+      {/*  </div> */}
+      {/* </Box> */}
+      {
+        data && Categories && <Box as={'ul'} m={['24px 24px', '24px 40px', '24px 64px', '24px 64px']}>
           {
             data.posts.data.length === 0 && <Empty description={'暂无数据'}/>
           }
           {
-            data.posts.data.map(({ _id, likes, images, comments, title, author: { name, _id: selfID }, createdAt }
-            :{ _id: string, likes: any[], images: string[], comments: any[], title: string, author: any, createdAt: any}, index: number) =>
-              <li key={_id}>
-                <div className={'left-panel'}>
-                  <div className={'top-info'}>
-                    <span>{name}</span>
-                    <span>{dayjs(Number(createdAt)).format('YYYY年MM月DD日 HH:MM')}</span>
-                  </div>
-                  <h3 onClick={handleNavToDetail.bind(null, _id)}>{title}</h3>
-                  <ButtonGroup>
-                    <Button
-                      className={'btn-like'}
-                      type={'link'}
-                      icon={
-                        likes.findIndex(({ _id: uid }: { _id: any }) => uid === selfID) !== -1 ? <HeartFilled style={{ color: '#F56565' }}/> : <HeartOutlined/>}
-                      onClick={() => handleLikeBtnClick(_id, index)}
-                    >
-                      { likes.length }
-                    </Button>
-                    <Button
-                      className={'btn-comment'}
-                      type={'link'}
-                      icon={<CommentOutlined/>}
-                      onClick={handleNavToDetail.bind(null, _id)}
-                    >
-                      {comments.length}
-                    </Button>
-                  </ButtonGroup>
-                </div>
-                <div className={'right-panel'}>
-                  {images.slice(0, 3).map((image: any) => <img key={image} src={image} alt="image"/>)}
-                </div>
-              </li>
+            data.posts.data.map(({ _id, likes, images, comments, title, author, createdAt, category, content }: PostType) =>
+              <Post
+                key={_id}
+                _id={_id}
+                author={author}
+                category={category}
+                title={title}
+                createdAt={createdAt}
+                images={images}
+                content={ <Text as={'p'} cursor={'default'} className={'post-desc'} pt={'6px'} fontSize={'14px'} maxHeight={'56px'}
+                  lineHeight={'28px'}>{content}</Text>}
+                footer={
+                  <PostFooter
+                    isPure={false}
+                    mt={'16px'}
+                    createdAt={createdAt}
+                    comments={comments}
+                    _id={_id}
+                    likes={likes}
+                  />}
+              />
             )
           }
-        </ul>
+        </Box>
+      }
 
-      </section>
-    )
-  }
-  return <></>
+    </Flex>
+  )
 }
 
 export default Home

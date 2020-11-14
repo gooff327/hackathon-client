@@ -1,5 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { useColorModeValue, ChakraProvider, Box } from '@chakra-ui/react'
+
 import { ApolloProvider } from '@apollo/react-hooks'
 import { Provider } from 'react-redux'
 import store from './store'
@@ -9,24 +11,30 @@ import routes from './constants/routes'
 import './styles/layout.scss'
 import './App.css'
 import Header from './components/Header'
+import { customTheme } from './constants/theme'
 
+import ErrorBoundary from './containers/ErrorBoundary'
 function App () {
   return (
     <Provider store={store}>
-      <ApolloProvider client={client}>
-        <Router>
-          <section className={'main-layout'}>
-            <Header />
-            <div className={'content-wrapper'}>
-              <Switch>
-                {routes.map((route, i) => (
-                  <Route {...route} key={i} />
-                ))}
-              </Switch>
-            </div>
-          </section>
-        </Router>
-      </ApolloProvider>
+      <ErrorBoundary>
+        <ApolloProvider client={client}>
+          <ChakraProvider theme={customTheme}>
+            <Router>
+              <Box className={'main-layout'}>
+                <Header />
+                <div className={'content-wrapper'}>
+                  <Switch>
+                    {routes.map((route, i) => (
+                      <Route {...route} key={i} />
+                    ))}
+                  </Switch>
+                </div>
+              </Box>
+            </Router>
+          </ChakraProvider>
+        </ApolloProvider>
+      </ErrorBoundary>
     </Provider>
   )
 }

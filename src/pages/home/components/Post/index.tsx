@@ -1,71 +1,50 @@
-import React, { FunctionComponent } from 'react'
-import { Post } from '../../../../types'
-import { List, Button } from 'antd'
-import { CommentOutlined, HeartOutlined } from '@ant-design/icons'
-import ButtonGroup from 'antd/lib/button/button-group'
-import { RouteComponentProps } from 'react-router'
-import dayjs from 'dayjs'
+import { Flex, Image, Text } from '@chakra-ui/react'
+import PostSource from '../PostSource'
+import PostFooter from '../PostFooter'
+import React, { FunctionComponent, ReactElement } from 'react'
 
 interface PostProps {
-  post: Post[]
-  loading: boolean
-  fetchMore: any
+  _id: string
+  author: any
+  category: { label: string, value: string }
+  title: string
+  createdAt: string
+  images: string[],
+  content?: ReactElement
+  footer?: ReactElement,
+
 }
 
-// eslint-disable-next-line react/prop-types
-const ListView:FunctionComponent<RouteComponentProps & PostProps> = (
-  props:RouteComponentProps, { fetchMore, post, loading }:PostProps) => {
-  console.log('post', post)
-  // eslint-disable-next-line multiline-ternary
-  const loadMore = !loading
-  // eslint-disable-next-line multiline-ternary
-    ? (
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: 12,
-            height: 32,
-            lineHeight: '32px'
-          }}
-        >
-          <Button onClick={fetchMore}>加载更多</Button>
-        </div>
-      )
-    : null
-
-  const handleNavToDetail = () => {
-    console.log(props)
-  }
-  return <div>
+const Post: FunctionComponent<PostProps> = (
+  {
+    _id,
+    author,
+    category,
+    title,
+    createdAt,
+    images,
+    content,
+    footer
+  }) => <Flex key={_id} pb={'30px'} gridGap={'12px'} alignItems={'center'}>
+  <Flex w={'100%'} h={'100%'} justify={'space-between'} direction={'column'}>
+    <PostSource category={category} author={author}/>
+    <Text className={'post-title'} as={'h2'} fontSize={'16px'} maxH={'40px'}
+      lineHeight={'20px'} fontWeight={700}>{title}</Text>
+    {content}
+    {footer || <PostFooter createdAt={createdAt} _id={_id} mt={'8px'} isPure={true}/>}
+  </Flex>
+  <Flex maxW={content ? '200px' : '100px'} maxH={content ? '130px' : '100px'} w={content ? '200px' : '100px'}
+    h={content ? '130px' : '100px'}>
     {
-      post?.map(({ likes, images, comments, title, author: { name }, createdAt }) => (
-        <div key={createdAt} onClick={handleNavToDetail}>
-          <div className={'left-panel'}>
-            <div className={'top-info'}>
-              <span>{name}</span>
-              <span>{dayjs(Number(createdAt)).format('YYYY年MM月DD日 HH:MM')}</span>
-            </div>
-            <h3>{title}</h3>
-            <ButtonGroup>
-              <Button className={'btn-like'} type={'link'} icon={<HeartOutlined />}>{likes.length}</Button>
-              <Button className={'btn-comment'} type={'link'} icon={<CommentOutlined />}>{comments.length}</Button>
-            </ButtonGroup>
-          </div>
-          <div className={'right-panel'}>
-            {images.slice(0, 3).map(image => <img key={image} src={image} alt="image" />)}
-          </div>
-        </div>
-      ))
+      (images.length > 0) ? <Image
+        objectFit={'cover'}
+        maxW={content ? '200px' : '100px'}
+        w={content ? '200px' : '100px'}
+        src={images[0]}
+        borderRadius={'4px'}/>
+        : <i style={{ width: content ? '200px' : '100px' }}/>
     }
-  </div>
-}
+  </Flex>
+</Flex>
 
-const CardView = () => {}
-
-const Detail = () => {}
-
-export default {
-  ListView,
-  CardView,
-  Detail
-}
+export default Post

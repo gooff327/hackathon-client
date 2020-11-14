@@ -14,6 +14,7 @@ export const COMMENT = gql`
         _id
         author {
             name
+            avatar
         }
         type
         content
@@ -22,6 +23,7 @@ export const COMMENT = gql`
             _id
             author {
                 name
+                avatar
             }
             content
             createdAt
@@ -38,20 +40,38 @@ const Comments = ({ comments, id }: { comments: any, id: string}) => {
 
   const [addComment] = useMutation(COMMENT)
 
-  const handleSubmit = async (type:string, target:string, comment:string) => {
-    await addComment({
-      variables: { type, target, content: comment }
-      // update: (cache, { data: { addComment: comment } }) => {
-      //   const data:any = cache.readQuery({ query: QUERY_SPECIFIC_POST, variables: { id: target } })
-      //   console.log(comment, data.post.comments)
-      //   data.post.comments = [comment, ...data.post.comments]
-      //
-      //   const newComments = [comment, ...data.post.comments]
-      //   const newData = { ...data, ...{ post: data.post }, ...{ post: { comments: newComments } } }
-      //   cache.writeQuery({ query: QUERY_SPECIFIC_POST, variables: { id: target }, data: newData })
-      // }
+  const handleSubmit = (type:string, target:string, comment:string) => {
+    console.log(type, target)
+    return new Promise((resolve, reject) => {
+      addComment({
+        variables: { type, target, content: comment },
+        update: (cache, { data: { addComment: comment } }) => {
+          console.log(cache.identify({ id: target }), target)
+          cache.modify({
+            id: cache.identify({ __typename: 'Post', id: target }),
+            fields: {
+              _id: (value, details) => {
+                console.log(value)
+              },
+              replies: (value, details) => {
+                console.log('replies', value)
+              },
+              comments: (value, { toReference }) => {
+                return [toReference(comment), ...value]
+              }
+            },
+            broadcast: true,
+            optimistic: true
+          })
+          // const data: any = cache.readQuery({ query: QUERY_SPECIFIC_POST, variables: { id: target } })
+          // const newData = Object.assign({}, data, { post: { comments: [comment, ...data.post.comments] } })
+          // cache.writeQuery({ query: QUERY_SPECIFIC_POST, variables: { id: target }, data: newData })
+        }
+      }).then(() => {
+        setActiveKey('')
+        resolve()
+      }).catch(e => reject(e))
     })
-    setActiveKey('')
   }
 
   const handleReply = (index:string) => {
@@ -75,7 +95,7 @@ const Comments = ({ comments, id }: { comments: any, id: string}) => {
     />
     <div className={'comment-list'}>
       {
-        commentList && commentList.map((item:any, index:number) => <div key={index} className={'comment-item'}>
+        comments && comments.map((item:any, index:number) => <div key={index} className={'comment-item'}>
           <Row justify={'start'} gutter={[48, 12]} align={'top'}>
             <Col span={1}>
               <Avatar
