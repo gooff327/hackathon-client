@@ -55,9 +55,6 @@ Initially we built this project to participate in a hackathon to build an intern
 - [ ] Private messages between users
 - [ ] Message/Comment/Praise notification
 - [ ] Preference setting
-- [ ] 
-- [ ] 
-- [ ] 
 
 ## Install
 
@@ -69,7 +66,7 @@ Initially we built this project to participate in a hackathon to build an intern
    git clone https://github.com/gooff327/monkey-bar.git && cd monkey-bar && yarn
    ```
 
-3. Run nom script to build or start this project
+3. Run script to build or start this project
 
    ```bash
    # start this project in develop environment
