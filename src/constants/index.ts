@@ -1,4 +1,4 @@
-export const ApolloServerURL = process.env.NODE_ENV === 'development' ? 'http://localhost:12345/graphql' : window.location.host + '/graphql'
+export const ApolloServerURL = process.env.NODE_ENV === 'development' ? 'http://localhost:12345/graphql' : '/graphql'
 export const ProjUrl = 'https://github.com/gooff327/hackathon-client'
 
 export enum PostTypeEnum {

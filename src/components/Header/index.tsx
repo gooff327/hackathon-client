@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { SearchIcon, BellIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 
-import EditPostModal from '../../pages/editPostModal'
+import EditPostModal from '../../pages/EditPostModal'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useHistory } from 'react-router-dom'
