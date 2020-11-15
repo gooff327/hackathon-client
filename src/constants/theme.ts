@@ -22,7 +22,7 @@ export const styles = {
     },
     img: { filter: props.colorMode === 'dark' ? 'brightness(75%)' : '' },
     hr: { color: props.colorMode === 'dark' ? 'gray.100' : 'gray.200' },
-    div: { borderBottomColor: props.colorMode === 'dark' ? 'gray.400' : 'gray.200' },
+    div: { borderBottomColor: props.colorMode === 'dark' ? 'gray.700' : 'gray.200' },
     h2: { color: props.colorMode === 'dark' ? 'gray.200' : 'gray.900' },
     h3: { color: props.colorMode === 'dark' ? 'gray.300' : 'gray.600' },
     span: { color: props.colorMode === 'dark' ? 'gray.300' : 'gray.500' },

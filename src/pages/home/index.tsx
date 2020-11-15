@@ -20,7 +20,7 @@ import { PostFilter } from '../../store/home/types'
 import {
   updateCategory, updateSort
 } from '../../store/home/actions'
-import Trending from './components/Trending'
+import Trending, { ListPostSkeleton } from './components/Trending'
 import { Box, Flex, Link, Text } from '@chakra-ui/react'
 import PostSource from './components/PostSource'
 import { PostType } from '../../types'
@@ -91,6 +91,12 @@ const Home = (props: RouteComponentProps) => {
     history.push(`/detail?id=${id}`)
   }
 
+  const LoadingListPlaceholder = () => <>
+    {
+      Array.from(new Array(5).keys()).map(i => <ListPostSkeleton key={i} hasContent />)
+    }
+  </>
+
   return (
     <Flex m={'auto'} flex={1} direction={'column'} width={'100%'} maxWidth={'1192px'} className={'home-wrapper'}>
       <Trending />
@@ -148,10 +154,12 @@ const Home = (props: RouteComponentProps) => {
       {/*  </div> */}
       {/* </Box> */}
       {
+        loading && <Box as={'ul'} m={['24px 24px', '24px 40px', '24px 64px', '24px 64px']}>
+          {<LoadingListPlaceholder/>}
+        </Box>
+      }
+      {
         data && Categories && <Box as={'ul'} m={['24px 24px', '24px 40px', '24px 64px', '24px 64px']}>
-          {
-            data.posts.data.length === 0 && <Empty description={'暂无数据'}/>
-          }
           {
             data.posts.data.map(({ _id, likes, images, comments, title, author, createdAt, category, content }: PostType) =>
               <Post
@@ -162,8 +170,18 @@ const Home = (props: RouteComponentProps) => {
                 title={title}
                 createdAt={createdAt}
                 images={images}
-                content={ <Text as={'p'} cursor={'default'} className={'post-desc'} pt={'6px'} fontSize={'14px'} maxHeight={'56px'}
-                  lineHeight={'28px'}>{content}</Text>}
+                content={
+                  <Text
+                    as={'p'}
+                    cursor={'default'}
+                    className={'post-desc'}
+                    pt={'6px'}
+                    fontSize={'14px'}
+                    maxHeight={'56px'}
+                    lineHeight={'28px'}
+                  >
+                    {content}
+                  </Text>}
                 footer={
                   <PostFooter
                     isPure={false}

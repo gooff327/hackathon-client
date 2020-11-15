@@ -1,12 +1,11 @@
 import { useQuery } from '@apollo/react-hooks'
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { fetchHotPosts } from '../../../../gql'
 import { Avatar, Box, Button, Divider, Flex, Image, Link, Skeleton, Text, useColorModeValue } from '@chakra-ui/react'
 import PostSource, { PostSourceSkeleton } from '../PostSource'
 import PostFooter, { PostFooterSkeleton } from '../PostFooter'
 import { PostType } from '../../../../types'
 import Post from '../Post'
-import { titleColor } from '../../../../constants/theme'
 
 const HottestPostSkeleton = () => {
   return <Box w={'100%'} h={'520px'}>
@@ -49,16 +48,22 @@ const ListPost = ({ posts }: any) => {
   return posts.map(({ _id, images, author, category, title, createdAt }: any) =>
     (<Post key={_id} _id={_id} images={images} author={author} title={title} category={category} createdAt={createdAt} />))
 }
-const ListPostSkeleton = () =>
-  <Flex pb={'30px'} gridGap={'12px'}>
+interface ListPostSkeletonProps {
+  hasContent?: boolean
+}
+export const ListPostSkeleton: FunctionComponent<ListPostSkeletonProps> = ({ hasContent }) =>
+  <Flex pb={'30px'} gridGap={'12px'} alignItems={'center'}>
     <Flex w={'100%'} h={'100%'} justify={'space-between'} direction={'column'}>
       <PostSourceSkeleton />
       <Skeleton h={'20px'} my={'6px'}/>
-      <Skeleton h={'20px'} my={'6px'}/>
-      <PostFooterSkeleton />
+      {
+        hasContent && <Skeleton h={'20px'} my={'6px'}/>
+      }
+      <Skeleton h={'20px'} my={'6px'} w={'75%'}/>
+      <PostFooterSkeleton mt={'8px'} />
     </Flex>
     <Flex>
-      <Skeleton w={'100px'} h={'100px'}/>
+      <Skeleton w={ hasContent ? '200px' : '100px'} h={ hasContent ? '130px' : '10px'}/>
     </Flex>
   </Flex>
 
@@ -85,7 +90,7 @@ const Trending = () => {
         </Box>
         <Flex
           minWidth={'330px'}
-          paddingLeft={{ base: '12px', sm: '16px' }}
+          padding={{ base: '12px', sm: '16px' }}
           direction={'column'}
           flex={1}
           flexWrap={'wrap'}
@@ -103,22 +108,22 @@ const Trending = () => {
                 <Skeleton h={'12px'} width={'60px'}/>
               </Flex>
               <Flex direction={'column'} align={'center'}>
-                <Skeleton w={'64px'} h={'64px'} borderRadius={'50%'} mb={'4px'} />
+                <Skeleton w={'64px'} h={'64px'} borderRadius={'50%' } mb={'4px'} />
                 <Skeleton h={'12px'} width={'60px'}/>
               </Flex>
             </Flex>
           </Box>
           <Box flex={1} pb={'12px'}>
             <Skeleton h={'22px'} mb={'20px'} w={'30%'}/>
-            <Flex justify={'space-between'} align={'center'} my={'16px'}>
+            <Flex justify={'space-between'} align={'center'} my={'24px'}>
               <Skeleton h={'32px'} w={'40%'}/>
               <Skeleton h={'32px'} w={'20%'}/>
             </Flex>
-            <Flex justify={'space-between'} align={'center'} my={'16px'}>
+            <Flex justify={'space-between'} align={'center'} my={'24px'}>
               <Skeleton h={'32px'} w={'40%'}/>
               <Skeleton h={'32px'} w={'20%'}/>
             </Flex>
-            <Flex justify={'space-between'} align={'center'} my={'16px'}>
+            <Flex justify={'space-between'} align={'center'} my={'24px'}>
               <Skeleton h={'32px'} w={'40%'}/>
               <Skeleton h={'32px'} w={'20%'}/>
             </Flex>
@@ -164,7 +169,9 @@ const Trending = () => {
           flexWrap={'wrap'}
 
         >
-          <Box flex={{ sm: 0, md: 0, lg: 0, xl: 0 }} borderBottom={{ base: '1px solid', sm: 0, md: 0 }}
+          <Box
+            flex={{ sm: 0, md: 0, lg: 0, xl: 0 }}
+            borderBottom={{ base: '1px solid', sm: 0, md: 0 }}
             pb={'12px'}
             w={{ sm: '100%', md: '50%', lg: '100%' }}
             minW={'300px'}
@@ -196,7 +203,6 @@ const Trending = () => {
           </Box>
         </Flex>
       </Flex>
-
     </Flex>
   }
   return <></>
