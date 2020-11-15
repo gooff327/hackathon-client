@@ -20,7 +20,7 @@ export const styles = {
       color: props.colorMode === 'dark' ? 'white' : 'gray.600',
       lineHeight: 'tall'
     },
-    img: { filter: props.colorMode === 'dark' ? 'brightness(75%)' : '' },
+    img: { filter: props.colorMode === 'dark' ? 'brightness(65%)' : '' },
     hr: { color: props.colorMode === 'dark' ? 'gray.100' : 'gray.200' },
     div: { borderBottomColor: props.colorMode === 'dark' ? 'gray.700' : 'gray.200' },
     h2: { color: props.colorMode === 'dark' ? 'gray.200' : 'gray.900' },

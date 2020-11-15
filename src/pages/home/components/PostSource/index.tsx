@@ -3,7 +3,7 @@ import { Flex, Skeleton, Text } from '@chakra-ui/react'
 import { CategoryIconMap } from '../../../../constants'
 
 const PostSource = ({ category, author: { name }, mt }: any) =>
-  <Flex align={'center'} mt={mt || 0}>
+  <Flex align={'center'} mt={mt || 0} flexWrap={'wrap'}>
     <Text as={'span'} mr={'4px'} fontSize={'20px'}>{CategoryIconMap[category.value]}</Text>
     <Text as={'span'} fontSize={'13px'} fontWeight={500}>{name}</Text>
     <Text as={'small'} fontSize={'13px'} fontWeight={500} m={'0 4px'}>in</Text>

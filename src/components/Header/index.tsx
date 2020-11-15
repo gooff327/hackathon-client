@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { SearchIcon, BellIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 
-import EditPostModal from '../../pages/EditPostModal'
+import EditPostModal from '../../pages/editPostModal'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useHistory } from 'react-router-dom'
@@ -48,12 +48,12 @@ const HeaderContent = () => {
     return false
   }
 
-  return <Flex m={['0 12px', '0 24px', '0 48px', '0 48px']} width={'100%'} wrap={'wrap'}
-    justify={{ sm: 'center', md: 'space-between' }} align={'center'} gridGap={'10px'}
+  return <Flex m={['0 24px', '0 24px', '0 48px', '0 48px']} width={'100%'} wrap={'wrap'}
+    justify={'space-between'} align={'center'} gridGap={'10px'}
     padding={{ sm: '0 12px', md: '0 16px' }}
   >
     <Flex userSelect={'none'} onClick={() => history.push('/')} flex={1} justify={'flex-start'} className={'left-panel'}>
-      <Image src={logo} w={{ base: '24px', sm: '24px', md: '40px' }}/>
+      <Image src={logo} w={{ base: '24px', sm: '24px', md: '40px' }} h={{ base: '24px', sm: '24px', md: '40px' }}/>
       <Box cursor={'pointer'} as={'span'} ml={'16px'}
         fontSize={['20px', '20px', '38px', '38px']} fontWeight={600} fontFamily={'cursive'}>Monkey</Box>
       <Box cursor={'pointer'} as={'span'}
@@ -104,7 +104,7 @@ const HeaderContent = () => {
         user ? <UserPopover/> : <Login/>
       }
     </Flex>
-    <Flex w={'100%'} display={{ base: 'flex', sm: 'none' }} gridGap={'12px'}>
+    <Flex w={'100%'} display={{ base: 'flex', sm: 'none' }} pt={{ base: '12px', sm: '0px' }} gridGap={'12px'}>
       <InputGroup
         ref={inputRef}
         minW={'300px'}
