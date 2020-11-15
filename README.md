@@ -23,7 +23,7 @@
 - [Features](#Features)
 - [Install](#Install)
 - [Example](#Example)
-- [Related Efforts](#Related Efforts)
+- [Related Efforts](#related-efforts)
 - [Maintainers](#Maintainers)
 - [Contributing](#Contributing)
 - [License](#License)
