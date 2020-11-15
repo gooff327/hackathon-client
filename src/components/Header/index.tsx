@@ -52,7 +52,7 @@ const HeaderContent = () => {
     justify={'space-between'} align={'center'} gridGap={'10px'}
     padding={{ sm: '0 12px', md: '0 16px' }}
   >
-    <Flex userSelect={'none'} onClick={() => history.push('/')} flex={1} justify={'flex-start'} className={'left-panel'}>
+    <Flex userSelect={'none'} onClick={() => history.push('/')} flex={1} align={'center'} justify={'flex-start'} className={'left-panel'}>
       <Image src={logo} w={{ base: '24px', sm: '24px', md: '40px' }} h={{ base: '24px', sm: '24px', md: '40px' }}/>
       <Box cursor={'pointer'} as={'span'} ml={'16px'}
         fontSize={['20px', '20px', '38px', '38px']} fontWeight={600} fontFamily={'cursive'}>Monkey</Box>
