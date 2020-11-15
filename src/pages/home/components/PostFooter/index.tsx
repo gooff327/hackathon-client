@@ -38,5 +38,5 @@ const PostFooter: FunctionComponent<PostFooterProps> = (
 
   </Flex>
 export const PostFooterSkeleton = ({ mt }: any) =>
-  <Skeleton w={'120px'} height={'12px'} mt={mt} fontSize={'20px'}/>
+  <Skeleton w={'40%'} height={'12px'} mt={mt} fontSize={'20px'}/>
 export default PostFooter

@@ -28,7 +28,7 @@ const Post: FunctionComponent<PostProps> = (
   }) => <Flex key={_id} pb={'30px'} gridGap={'12px'} alignItems={'center'}>
   <Flex w={'100%'} h={'100%'} justify={'space-between'} direction={'column'}>
     <PostSource category={category} author={author}/>
-    <Text className={'post-title'} as={'h2'} fontSize={'16px'} maxH={'40px'}
+    <Text className={'post-title'} as={'h2'} fontSize={'16px'} maxH={content ? '20px' : '40px'}
       lineHeight={'20px'} fontWeight={700}>{title}</Text>
     {content}
     {footer || <PostFooter createdAt={createdAt} _id={_id} mt={'8px'} isPure={true}/>}
