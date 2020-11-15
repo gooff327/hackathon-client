@@ -63,7 +63,7 @@ export const ListPostSkeleton: FunctionComponent<ListPostSkeletonProps> = ({ has
       <PostFooterSkeleton mt={'8px'} />
     </Flex>
     <Flex>
-      <Skeleton w={ hasContent ? '200px' : '100px'} h={ hasContent ? '130px' : '10px'}/>
+      <Skeleton w={ hasContent ? '200px' : '100px'} h={ hasContent ? '130px' : '100px'}/>
     </Flex>
   </Flex>
 
@@ -97,11 +97,11 @@ const Trending = () => {
 
         >
           <Box flex={{ sm: 0, md: 0, lg: 0, xl: 0 }} borderBottom={{ base: '1px solid', sm: 0, md: 0 }}
-            pb={'12px'}
+            pb={'14px'}
             w={{ sm: '100%', md: '50%', lg: '100%' }}
             minW={'300px'}
           >
-            <Skeleton h={'22px'} w={'30%'} mb={'20px'}/>
+            <Skeleton h={'16px'} w={'30%'} mb={'20px'}/>
             <Flex w={'100%'} my={'6px'} gridGap={'10px'}>
               <Flex direction={'column'} align={'center'}>
                 <Skeleton w={'64px'} h={'64px'} borderRadius={'50%'} mb={'4px'} />
@@ -114,18 +114,18 @@ const Trending = () => {
             </Flex>
           </Box>
           <Box flex={1} pb={'12px'}>
-            <Skeleton h={'22px'} mb={'20px'} w={'30%'}/>
+            <Skeleton h={'16px'} mb={'20px'} w={'30%'}/>
             <Flex justify={'space-between'} align={'center'} my={'24px'}>
               <Skeleton h={'32px'} w={'40%'}/>
-              <Skeleton h={'32px'} w={'20%'}/>
+              <Skeleton h={'32px'} w={'48px'}/>
             </Flex>
             <Flex justify={'space-between'} align={'center'} my={'24px'}>
               <Skeleton h={'32px'} w={'40%'}/>
-              <Skeleton h={'32px'} w={'20%'}/>
+              <Skeleton h={'32px'} w={'48px'}/>
             </Flex>
             <Flex justify={'space-between'} align={'center'} my={'24px'}>
               <Skeleton h={'32px'} w={'40%'}/>
-              <Skeleton h={'32px'} w={'20%'}/>
+              <Skeleton h={'32px'} w={'48px'}/>
             </Flex>
           </Box>
         </Flex>
@@ -188,17 +188,17 @@ const Trending = () => {
             <Text as={'h2'} fontWeight={600} pb={'20px'}>可能感兴趣的话题</Text>
             <Flex justify={'space-between'} align={'center'}>
               <Text fontWeight={700} fontSize={'16px'}>吐槽一下</Text>
-              <Button variant={'outline'} size={'sm'} variantColor={'black'}>关注</Button>
+              <Button variant={'outline'} size={'sm'} colorScheme={'black'}>关注</Button>
             </Flex>
             <Divider m={'16px 0'}/>
             <Flex justify={'space-between'} align={'center'}>
               <Text fontWeight={700} fontSize={'16px'}>闲置交互</Text>
-              <Button variant={'outline'} size={'sm'} variantColor={'black'}>关注</Button>
+              <Button variant={'outline'} size={'sm'} colorScheme={'black'}>关注</Button>
             </Flex>
             <Divider m={'16px 0'}/>
             <Flex justify={'space-between'} align={'center'} mb={'16px'}>
               <Text fontWeight={700} fontSize={'16px'}>植发</Text>
-              <Button variant={'outline'} size={'sm'} variantColor={'black'}>关注</Button>
+              <Button variant={'outline'} size={'sm'} colorScheme={'black'}>关注</Button>
             </Flex>
           </Box>
         </Flex>
