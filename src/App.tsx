@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { useColorModeValue, ChakraProvider, Box } from '@chakra-ui/react'
+import { ChakraProvider, Box } from '@chakra-ui/react'
 
 import { ApolloProvider } from '@apollo/react-hooks'
 import { Provider } from 'react-redux'
