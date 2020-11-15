@@ -2,7 +2,7 @@
 
 <h1 align="center">
   <a href="https://www.gooff.tech">
-    <img alt="P" src="./src/assets/logo.svg" width="64" align="center" />Monkey Bar
+    <img alt="" src="./src/assets/images/logo.svg" width="64" align="center" />Monkey Bar
   </a>
 </h1>
 <h3 align="center">
