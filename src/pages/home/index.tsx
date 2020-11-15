@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Empty, Spin } from 'antd'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks'
 import './index.scss'
 import { RouteComponentProps } from 'react-router'
-import ButtonGroup from 'antd/lib/button/button-group'
-import {
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-  CommentOutlined,
-  HeartFilled,
-  HeartOutlined,
-  SyncOutlined
-} from '@ant-design/icons'
 import { doLikeAction, fetchCategory, fetchPosts } from '../../gql'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,8 +11,7 @@ import {
   updateCategory, updateSort
 } from '../../store/home/actions'
 import Trending, { ListPostSkeleton } from './components/Trending'
-import { Box, Flex, Link, Text } from '@chakra-ui/react'
-import PostSource from './components/PostSource'
+import { Box, Flex, Text } from '@chakra-ui/react'
 import { PostType } from '../../types'
 import Post from './components/Post'
 import PostFooter from './components/PostFooter'
@@ -179,6 +168,7 @@ const Home = (props: RouteComponentProps) => {
                     fontSize={'14px'}
                     maxHeight={'56px'}
                     lineHeight={'28px'}
+                    mr={'10px'}
                   >
                     {content}
                   </Text>}

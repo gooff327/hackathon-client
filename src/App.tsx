@@ -1,19 +1,17 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { useColorModeValue, ChakraProvider, Box } from '@chakra-ui/react'
-
+import { ChakraProvider, Box } from '@chakra-ui/react'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { Provider } from 'react-redux'
 import store from './store'
 import client from './utils/apollo-init'
 import routes from './constants/routes'
+import Header from './components/Header'
+import { customTheme } from './constants/theme'
+import ErrorBoundary from './containers/ErrorBoundary'
 
 import './styles/layout.scss'
 import './App.css'
-import Header from './components/Header'
-import { customTheme } from './constants/theme'
-
-import ErrorBoundary from './containers/ErrorBoundary'
 function App () {
   return (
     <Provider store={store}>
