@@ -24,7 +24,7 @@ const PostFooter: FunctionComponent<PostFooterProps> = (
     likes
   }) =>
   <Flex mt={mt} fontSize={'12px'} cursor={'default'}>
-    <Link as={'small'} href={`/detail?id=${_id}`} display={{ base: 'none', md: 'block' }}>阅读全文</Link>
+    <Link as={'a'} href={`/detail?id=${_id}`} display={{ base: 'none', md: 'block' }}>阅读全文</Link>
     <Text as={'small'} mx={'6px'} display={{ base: 'none', md: 'block' }}>·</Text>
     <Text as={'small'}>{dayjs(parseInt(createdAt)).format('YYYY-MM-DD')}</Text>
     {

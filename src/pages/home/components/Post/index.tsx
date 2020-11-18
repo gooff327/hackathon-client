@@ -12,7 +12,7 @@ interface PostProps {
   images: string[],
   content?: ReactElement
   footer?: ReactElement,
-
+  navToDetail: () => void
 }
 
 const Post: FunctionComponent<PostProps> = (
@@ -24,18 +24,32 @@ const Post: FunctionComponent<PostProps> = (
     createdAt,
     images,
     content,
-    footer
+    footer,
+    navToDetail
   }) => <Flex key={_id} pb={'30px'} alignItems={'center'}>
   <Flex w={'100%'} h={'100%'} justify={'space-between'} direction={'column'}>
     <PostSource category={category} author={author}/>
-    <Text className={'post-title'} as={'h2'} fontSize={'16px'} maxH={content ? '20px' : '40px'}
-      lineHeight={'20px'} fontWeight={700} mr={'12px'}>{title}</Text>
+    <Text
+      className={'post-title'}
+      as={'h2'}
+      fontSize={'16px'}
+      maxH={content ? '20px' : '40px'}
+      lineHeight={'20px'}
+      fontWeight={700}
+      mr={'12px'}
+      onClick={navToDetail}
+    >
+      {title}
+    </Text>
     {content}
     {footer || <PostFooter createdAt={createdAt} _id={_id} mt={'8px'} isPure={true}/>}
   </Flex>
-  <Flex maxW={content ? '200px' : '100px'} maxH={content ? '130px' : '100px'} w={{ base: '140px', md: content ? '200px' : '100px' }}
-
-    h={content ? '130px' : '100px'}>
+  <Flex
+    maxW={content ? '200px' : '100px'}
+    maxH={content ? '130px' : '100px'}
+    w={{ base: '140px', md: content ? '200px' : '100px' }}
+    h={content ? '130px' : '100px'}
+  >
     {
       (images.length > 0) ? <Image
         objectFit={'cover'}

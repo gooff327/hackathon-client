@@ -6,6 +6,8 @@ import PostSource, { PostSourceSkeleton } from '../PostSource'
 import PostFooter, { PostFooterSkeleton } from '../PostFooter'
 import { PostType } from '../../../../types'
 import Post from '../Post'
+import { useHistory } from 'react-router-dom'
+import { handleNavToDetail } from '../../index'
 
 const HottestPostSkeleton = () => (
   <Flex minWidth={'330px'} flex={1} direction={'column'} verticalAlign={'middle'}
@@ -19,11 +21,9 @@ const HottestPostSkeleton = () => (
       </Link>
       <PostSourceSkeleton mt={'16px'}/>
       <Link >
-        <Skeleton height={'28px'} mt={'6px'} lineHeight={'28px'}/>
-        <Skeleton height={'28px'} mt={'6px'} lineHeight={'28px'} w={'75%'}/>
-        <Skeleton as={'p'} className={'post-desc'} mt={'6px'} height={'20px'}/>
-        <Skeleton as={'p'} className={'post-desc'} mt={'6px'} height={'20px'}/>
-        <Skeleton as={'p'} className={'post-desc'} mt={'6px'} height={'20px'} width={'50%'} />
+        <Skeleton height={'28px'} my={'10px'} lineHeight={'28px'}/>
+        <Skeleton as={'p'} className={'post-desc'} my={'10px'} height={'20px'}/>
+        <Skeleton as={'p'} className={'post-desc'} my={'10px'} height={'20px'} width={'50%'} />
       </Link>
       <PostFooterSkeleton mt={'16px'}/>
     </Box>
@@ -40,8 +40,8 @@ const HottestPost = ({ _id, images, author, category, title, content, createdAt 
   px={{ base: '12px', sm: ' 16px', md: '16px' }}
 >
   <Box w={'100%'} overflow={'hidden'}>
-    <Link as={'div'} href={`/detail?id=${_id}`} w={'100%'} paddingTop={'100%'} position={'relative'}>
-      <Image position={'absolute'} top={0} left={0} verticalAlign={'middle'} w={'100%'} h={'auto'} src={images[0]} borderRadius={'4px'} objectFit={'cover'}/>
+    <Link as={'div'} href={`/detail?id=${_id}`} w={'100%'}>
+      <Image w={'100%'} minH={'200px'} maxH={'400px'} src={images[0]} borderRadius={'4px'} objectFit={'cover'}/>
     </Link>
   </Box>
   <PostSource category={category} author={author} mt={'16px'}/>
@@ -55,8 +55,18 @@ const HottestPost = ({ _id, images, author, category, title, content, createdAt 
 </Flex>
 
 const ListPost = ({ posts }: any) => {
-  return posts.map(({ _id, images, author, category, title, createdAt }: any) =>
-    (<Post key={_id} _id={_id} images={images} author={author} title={title} category={category} createdAt={createdAt} />))
+  const history = useHistory()
+
+  return posts.map(({ _id, images, author, category, title, createdAt }: any) => <Post
+    key={_id}
+    _id={_id}
+    images={images}
+    author={author}
+    title={title}
+    category={category}
+    createdAt={createdAt}
+    navToDetail={() => handleNavToDetail(history, _id)}
+  />)
 }
 interface ListPostSkeletonProps {
   hasContent?: boolean
@@ -65,11 +75,8 @@ export const ListPostSkeleton: FunctionComponent<ListPostSkeletonProps> = ({ has
   <Flex pb={'30px'} gridGap={'12px'} alignItems={'center'}>
     <Flex w={'100%'} h={'100%'} justify={'space-between'} direction={'column'}>
       <PostSourceSkeleton />
-      <Skeleton h={'20px'} my={'6px'} mr={'12px'}/>
-      {
-        hasContent && <Skeleton h={'20px'} my={'6px'} mr={'12px'}/>
-      }
-      <Skeleton h={'20px'} my={'6px'} w={'75%'} mr={'12px'}/>
+      <Skeleton h={'20px'} my={'10px'} mr={'12px'}/>
+      <Skeleton h={'20px'} my={'10px'} w={'75%'} mr={'12px'}/>
       <PostFooterSkeleton mt={'8px'} />
     </Flex>
     <Flex>

@@ -16,6 +16,10 @@ import { PostType } from '../../types'
 import Post from './components/Post'
 import PostFooter from './components/PostFooter'
 
+export const handleNavToDetail = (history: ReturnType<typeof useHistory>, id:string) => {
+  history.push(`/detail?id=${id}`)
+}
+
 const Home = (props: RouteComponentProps) => {
   const limit = 10
   const defaultPage = 1
@@ -74,10 +78,6 @@ const Home = (props: RouteComponentProps) => {
 
   const handleUpdateSort = (payload : any) => {
     dispatch(updateSort(payload))
-  }
-
-  const handleNavToDetail = (id:string) => {
-    history.push(`/detail?id=${id}`)
   }
 
   const LoadingListPlaceholder = () => <>
@@ -159,6 +159,7 @@ const Home = (props: RouteComponentProps) => {
                 title={title}
                 createdAt={createdAt}
                 images={images}
+                navToDetail={() => handleNavToDetail(history, _id)}
                 content={
                   <Text
                     as={'p'}
@@ -169,6 +170,7 @@ const Home = (props: RouteComponentProps) => {
                     maxHeight={'56px'}
                     lineHeight={'28px'}
                     mr={'10px'}
+                    onClick={() => handleNavToDetail(history, _id)}
                   >
                     {content}
                   </Text>}
