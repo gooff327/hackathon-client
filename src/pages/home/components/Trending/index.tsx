@@ -41,7 +41,7 @@ const HottestPost = ({ _id, images, author, category, title, content, createdAt 
 >
   <Box w={'100%'} overflow={'hidden'}>
     <Link as={'div'} href={`/detail?id=${_id}`} w={'100%'}>
-      <Image w={'100%'} minH={'200px'} maxH={'400px'} src={images[0]} borderRadius={'4px'} objectFit={'cover'}/>
+      <Image position={'static'} w={'100%'} minH={'200px'} maxH={'400px'} src={images[0]} borderRadius={'4px'} objectFit={'cover'}/>
     </Link>
   </Box>
   <PostSource category={category} author={author} mt={'16px'}/>
