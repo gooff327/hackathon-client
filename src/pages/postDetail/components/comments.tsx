@@ -41,12 +41,12 @@ const Comments = ({ comments, id }: { comments: any, id: string}) => {
   const [addComment] = useMutation(COMMENT)
 
   const handleSubmit = (type:string, target:string, comment:string) => {
-    console.log(type, target)
+    console.log(type, target, comment)
     return new Promise((resolve, reject) => {
       addComment({
         variables: { type, target, content: comment },
         update: (cache, { data: { addComment: comment } }) => {
-          console.log(cache.identify({ id: target }), target)
+          console.log(cache.identify({ _id: target }), target)
           cache.modify({
             id: cache.identify({ __typename: 'Post', id: target }),
             fields: {
@@ -83,7 +83,6 @@ const Comments = ({ comments, id }: { comments: any, id: string}) => {
   }
 
   const onBlur = (e:any) => {
-    console.log('event', e)
     e.stopPropagation()
     setActiveKey('')
   }
@@ -119,7 +118,7 @@ const Comments = ({ comments, id }: { comments: any, id: string}) => {
                     </span>
                   </span>}>
                   <AddComment
-                    handleSubmit={handleSubmit.bind(null, 'COMMENT', item._id)}
+                    handleSubmit={(content) => handleSubmit('COMMENT', item._id, content)}
                     onBlur = {onBlur}
                   />
                 </Collapse.Panel>

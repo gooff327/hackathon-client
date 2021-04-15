@@ -101,7 +101,6 @@ const EditPostForm:React.FC<EditPostFormProps> = ({
   )
 
   const handleUploadImg = (data:any) => {
-    console.log(data.fileList)
     setFileList(data.fileList)
   }
 
@@ -109,6 +108,7 @@ const EditPostForm:React.FC<EditPostFormProps> = ({
     beforeUpload: (file: File) => {
       uploadImage({ variables: { file } })
         .then(({ data: { sendImageToCloud: { message, res } } }) => {
+          console.info(message)
           setPostImages((postImages || []).concat(res))
         })
         .catch(() => {

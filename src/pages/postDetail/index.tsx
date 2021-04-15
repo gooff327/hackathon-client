@@ -7,6 +7,7 @@ import './style.scss'
 import { Avatar, Image, Spin } from 'antd'
 import { SyncOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
+import ReactMarkdown from 'react-markdown'
 
 export const QUERY_SPECIFIC_POST = gql`
     query querySpecificPost($id:ID!){
@@ -82,7 +83,7 @@ const PostDetailPage = () => {
       </div>
       <div className={'content'}>
         <h1 style={{ padding: '10px 0' }}>{data.post.title}</h1>
-        <p>{data.post.content}</p>
+        <ReactMarkdown>{data.post.content}</ReactMarkdown>
         {
           data.post.images.map((item:string) => <Image
             width={200}

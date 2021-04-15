@@ -1,5 +1,5 @@
-import { Button, Form, Input } from 'antd'
-import React from 'react'
+import { Box, InputGroup, Textarea, InputRightElement, Input, Button } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 import './addComment.scss'
 
 interface commentProps{
@@ -8,34 +8,44 @@ interface commentProps{
 }
 
 const AddComment:React.FC<commentProps> = ({ handleSubmit, onBlur }) => {
-  const [form] = Form.useForm()
+  const [value, setValue] = useState('')
 
-  const onFinish = async (values:any) => {
-    await handleSubmit(values.comment)
-    form.setFieldsValue({ comment: '' })
+  const onFinish = async () => {
+    console.info('comments')
+    await handleSubmit(value)
+    setValue('')
   }
 
-  return <div className={'comment-input-area'}>
-    <Form
-      form={form}
-      onFinish={onFinish}
+  return <Box className={'comment-input-area'}>
+
+    <InputGroup
+      size="md"
+      onBlur={onBlur}
     >
-      <Form.Item name={'comment'}>
-        <Input.TextArea
-          autoSize
-          autoFocus
-          placeholder={'输入评论...'} onBlur={onBlur}/>
-      </Form.Item>
-      <Form.Item>
-        <Button
-          type={'primary'}
-          htmlType={'submit'}
+      <Textarea
+        resize={'none'}
+        value={value}
+        pr="6rem"
+        placeholder={'输入评论...'}
+        onChange={ ({ target: { value: val } }) => setValue(val)}
+      />
+      {
+        value !== '' &&
+        <InputRightElement
+          width="6rem"
+          height="100%"
+          pb={'1rem'}
+          alignItems={'flex-end'}
+          pointerEvents={'all'}
+          onClick={() => alert('121')}
         >
-            评论
-        </Button>
-      </Form.Item>
-    </Form>
-  </div>
+          <Button size={'sm'} onClick={onFinish}
+          >评论</Button>
+        </InputRightElement>
+      }
+    </InputGroup>
+
+  </Box>
 }
 
 export default AddComment

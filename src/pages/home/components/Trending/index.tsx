@@ -157,7 +157,7 @@ const Trending = () => {
         borderBottomWidth={'1px'}
         pb={'24px'}
       >
-        <HottestPost {...data.hotPosts[0]}/>
+        { data.hotPosts[0] && <HottestPost {...data.hotPosts[0]}/> }
         <Box minWidth={'330px'} flex={1} borderBottomWidth={{ base: '1px', sm: 0, md: 0 }}
           marginBottom={{ base: '32px', sm: 0 }}
           padding={{ base: '0 12px', sm: '0 16px' }}

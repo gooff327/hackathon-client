@@ -24,9 +24,10 @@ import { PostFilter } from '../../store/home/types'
 import { updateKeyword } from '../../store/home/actions'
 import UserPopover from '../UserPopover'
 import logo from '../../assets/images/logo.svg'
+import { getFromLocalStorage } from '../../utils'
 
 const HeaderContent = () => {
-  const { colorMode, toggleColorMode } = useColorMode()
+  const { colorMode, toggleColorMode, setColorMode } = useColorMode()
   const [inputExpanded, setInputExpanded] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const history = useHistory()
@@ -35,16 +36,22 @@ const HeaderContent = () => {
   const [keyword, setKeyword] = useState('')
   const dispatch = useDispatch()
 
+  React.useEffect(() => {
+    const systemColor = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    const color = getFromLocalStorage('color-mode') || systemColor
+    setColorMode(color)
+  }, [])
+
   const handleSearchBtnClicked = () => {
-    setInputExpanded(!inputExpanded)
-    if (inputExpanded) {
-      dispatch(updateKeyword({ keyword }))
-      setKeyword('')
-      console.log()
-      inputRef?.current?.blur()
-    } else {
-      inputRef?.current?.focus()
-    }
+    inputRef.current?.focus()
+    setInputExpanded(prevState => {
+      if (prevState) {
+        dispatch(updateKeyword({ keyword }))
+        setKeyword('')
+      }
+      return !prevState
+    })
+
     return false
   }
 
@@ -62,7 +69,7 @@ const HeaderContent = () => {
     </Flex>
     <Flex flex={1} align={'center'}
       justifyContent={'flex-end'} className={'right-panel'}>
-      <InputGroup ref={inputRef} itemRef={'input'}
+      <InputGroup
         transition={'all .3s ease-in-out'} display={{ base: 'none', sm: 'block' }} w={inputExpanded ? '240px' : '40px'}
       >
         <InputLeftElement>
@@ -74,6 +81,7 @@ const HeaderContent = () => {
             onClick={handleSearchBtnClicked}/>
         </InputLeftElement>
         <Input
+          ref={inputRef}
           border={0}
           paddingRight={'4px'}
           defaultValue={keywordFormRedux}
@@ -106,7 +114,6 @@ const HeaderContent = () => {
     </Flex>
     <Flex w={'100%'} display={{ base: 'flex', sm: 'none' }} pt={{ base: '12px', sm: '0px' }} gridGap={'12px'}>
       <InputGroup
-        ref={inputRef}
         minW={'300px'}
         rounded="md"
         bg="gray.100"
