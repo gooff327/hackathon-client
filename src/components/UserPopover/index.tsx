@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import {
   Avatar,
   Box,
@@ -15,7 +15,10 @@ import { RootState } from '../../store/rootReducers'
 import { User } from '../../store/user/types'
 import { ProjUrl } from '../../constants'
 
-const UserPopover = () => {
+interface UserPopoverProps {
+  handleLogout: () => void
+}
+const UserPopover:FunctionComponent<UserPopoverProps> = ({ handleLogout }) => {
   const [isOpen, setIsOpen] = useState(false)
   const { name, avatar, email } = useSelector<RootState, User>(state => state.user.me)
 
@@ -53,7 +56,7 @@ const UserPopover = () => {
           <Link as={'a'} target={'_blank'} href={ProjUrl} p={'8px 20px'} cursor={'pointer'} color={'gray.600'}
             _hover={{ color: 'gray.900' }}>加入我们</Link>
           <Box as={Text} p={'8px 20px'} cursor={'pointer'} color={'gray.600'}
-            _hover={{ color: 'gray.900' }}>注销</Box>
+            _hover={{ color: 'gray.900' }} onClick={handleLogout}>注销</Box>
         </Flex>
 
       </PopoverContent>

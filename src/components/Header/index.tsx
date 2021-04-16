@@ -24,7 +24,7 @@ import { PostFilter } from '../../store/home/types'
 import { updateKeyword } from '../../store/home/actions'
 import UserPopover from '../UserPopover'
 import logo from '../../assets/images/logo.svg'
-import { getFromLocalStorage } from '../../utils'
+import { getFromLocalStorage, setToLocalStorage } from '../../utils'
 
 const HeaderContent = () => {
   const { colorMode, toggleColorMode, setColorMode } = useColorMode()
@@ -41,6 +41,11 @@ const HeaderContent = () => {
     const color = getFromLocalStorage('color-mode') || systemColor
     setColorMode(color)
   }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('me')
+    localStorage.removeItem('token')
+  }
 
   const handleSearchBtnClicked = () => {
     inputRef.current?.focus()
@@ -109,7 +114,7 @@ const HeaderContent = () => {
         mr={'16px'}
       />
       {
-        user ? <UserPopover/> : <Login/>
+        user ? <UserPopover handleLogout={handleLogout}/> : <Login/>
       }
     </Flex>
     <Flex w={'100%'} display={{ base: 'flex', sm: 'none' }} pt={{ base: '12px', sm: '0px' }} gridGap={'12px'}>
